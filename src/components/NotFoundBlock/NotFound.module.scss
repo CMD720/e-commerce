@@ -1,0 +1,49 @@
+.root {
+  margin: 0 auto;
+
+
+  .top {
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+  }
+
+  .bottom {
+    background-image: url("https://www.foxracing.com/dw/image/v2/BGML_PRD/on/demandware.static/-/Library-Sites-FoxRacing/default/dw98883c71/header/info_header_1920x450.png?");
+    height: 40vh;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-attachment: local;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f2f2f2;
+    font-size: 78px;
+    font-weight: bolder;
+  }
+
+  .satellite {
+    //display: flex;
+  }
+
+  @media (max-width: 800px) {
+    h2 {
+      font-size: 22px;
+      text-align: center;
+    }
+
+  }
+
+  @media (max-width: 645px) {
+    .bottom{
+      height: 25vh;
+    }
+  }
+}

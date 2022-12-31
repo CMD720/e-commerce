@@ -1,0 +1,194 @@
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //width: calc(100vw - 20px);
+  height: 50px;
+  background-color: #000;
+  color: #f2f2f2;
+
+  .text {
+    display: inline-block;
+    text-align: center;
+    font-weight: bolder;
+    //height: 100%;
+    width: 50vw;
+    animation-name: textIn;
+    animation-duration: 20s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+    position: relative;
+    margin-bottom: -35px;
+  }
+}
+
+@keyframes textIn {
+  0% {
+    color: #000000;
+    //bottom: -100%;
+    //left: 0;
+    //right: -300px;
+  }
+  3% {
+    color: #ffffff;
+    margin-bottom: 0;
+  }
+  5% {
+    //color: #ffffff;
+    //margin-bottom: 0;
+  }
+  //50% {
+  //  right: 0;
+  //  //left: 0;
+  //
+  //}
+  95% {
+    color: #ffffff;
+    margin-bottom: 0;
+  }
+  100% {
+    color: #000000;
+    margin-bottom: 35px;
+  }
+}
+
+//////// open banners ////////
+
+.homeWrapper {
+  display: grid;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  grid-template-areas:
+          "a a a"
+          "b c d";
+
+
+  .button_wrapper {
+    margin: 10px 10px;
+  }
+
+  // Button style replace to _button.scss
+  .button {
+    display: inline-block;
+    background-color: black;
+    font-weight: bolder;
+    color: white;
+    padding: 11px 20px;
+    margin: 20px 20px;
+    border-radius: 25px;
+    border: 2px solid black;
+
+    &:hover{
+      background-color: #f2f2f2;
+      color: black;
+      border: 2px solid black;
+    }
+  }
+
+  .homeBanner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    grid-area: a;
+    background-image: url("https://www.foxracing.com/dw/image/v2/BGML_PRD/on/demandware.static/-/Library-Sites-FoxRacing/default/dwcb83f4f3/homepage/banners/MOTO/MX_GG_Goat_Homepage.jpg");
+    height: 40vh;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-attachment: local;
+  }
+
+  .pad1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    grid-area: b;
+    background-image: url("https://www.foxracing.com/dw/image/v2/BGML_PRD/on/demandware.static/-/Library-Sites-FoxRacing/default/dwf2e928fc/homepage/tiles/MOTO/GG_2x1_MX_V1.jpg");
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 40vh;
+    //position: relative;
+  }
+
+  .pad2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    grid-area: c;
+    background-image: url("https://www.foxracing.com/dw/image/v2/BGML_PRD/on/demandware.static/-/Library-Sites-FoxRacing/default/dwc40e9465/homepage/tiles/MOTO/GG_2x1_MX_Boots.jpg");
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 40vh;
+  }
+
+  .pad3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    grid-area: d;
+    background-image: url("https://www.foxracing.com/dw/image/v2/BGML_PRD/on/demandware.static/-/Library-Sites-FoxRacing/default/dw38315f7b/homepage/tiles/MOTO/GG_4x1_MX_180.jpg");
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 40vh;
+  }
+
+  @media (max-width: 950px) {
+    padding: 0 30px;
+    .homeBanner {
+      height: 30vh;
+    }
+    .pad1 {
+      height: 20vh;
+    }
+    .pad2 {
+      height: 20vh;
+    }
+    .pad3 {
+      height: 20vh;
+    }
+  }
+  @media (max-width: 655px) {
+    grid-template-areas:
+          "a a b"
+          "a a c"
+          "a a d";
+    padding: 5px 20px;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+
+    .button_wrapper{
+      margin: 0;
+    }
+    .homeBanner {
+      height: 31vh;
+    }
+    .pad1 {
+      height: 10vh;
+    }
+    .pad2 {
+      height: 10vh;
+    }
+    .pad3 {
+      height: 10vh;
+    }
+  }
+@media (max-width: 500px) {
+  grid-template-areas:
+          "a" "b" "c" "d";
+  padding: 5px 20px;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+    .homeBanner {
+      height: 20vh;
+    }
+    .pad1 {
+      height: 20vh;
+    }
+    .pad2 {
+      height: 20vh;
+    }
+    .pad3 {
+      height: 20vh;
+    }
+  }
+
+}

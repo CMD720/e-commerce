@@ -1,0 +1,35 @@
+h4{
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 0 20px 20px;
+
+}
+.tab_content{
+  overflow-y: auto;
+
+  .size{
+    font-size: 16px;
+    border-collapse: collapse;
+    border-spacing: 2px;
+    width: 70vw;
+    table-layout: fixed;
+    //min-width: 622px;
+    text-align: center;
+
+    tr{
+      //background-color: #f8f8f8;
+      background-color: #eeeded;
+    }
+
+    th{
+      padding: 24px;
+      background-color: #000;
+      color: #ffff;
+      border: 2px solid #ffff;
+    }
+    td{
+      padding: 24px;
+      border: 2px solid #ffff;
+    }
+  }
+}
