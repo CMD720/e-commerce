@@ -16,6 +16,8 @@ const Cart = () => {
                 <div className="wrapper__item__price">
                     <div className="item__cart">
                         <CartItem/>
+                        <CartItem/>
+                        <CartItem/>
                     </div>
                     <div className="price__cart">
                         <div className="promo__wrapper">

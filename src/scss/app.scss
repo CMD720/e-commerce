@@ -194,7 +194,6 @@ body {
                 color: $--Dark_Shade_75;
               }
             }
-
           }
         }
       }
@@ -208,7 +207,23 @@ body {
         }
       }
     }
+
   }
+
+  @media (max-width: 800px){
+    .wrapper__item__price{
+      flex-direction: column;
+      align-items: center;
+
+      .item__cart{
+        width: 95%;
+      }
+      .price__cart {
+        width: 95%;
+      }
+    }
+  }
+
   .bottom__cart{
     margin-top: 50px;
     p{

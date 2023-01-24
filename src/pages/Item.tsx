@@ -33,6 +33,16 @@ const Item = () => {
         setActiveImg(index);
     }
 
+    const onClickNextImg = () => {
+        const index = activeImg === imgBigUrls.length - 1 ? 0 : activeImg + 1
+        setUrl(imgBigUrls[index]);
+        setActiveImg(index);
+    }
+    const onClickPreviousImg = () => {
+        const index = activeImg === 0  ? imgBigUrls.length - 1 : activeImg - 1
+        setUrl(imgBigUrls[index]);
+        setActiveImg(index);
+    }
 
     return (
         <div className="item__container">
@@ -49,14 +59,16 @@ const Item = () => {
                     }
                 </div>
                 <div className="slider__big">
+                    <div className="previous__img" onClick={()=>onClickPreviousImg()}><div className="arrow__img"/></div>
                     <img src={url} alt=""/>
+                    <div className="next__img" onClick={()=>onClickNextImg()}><div className="arrow__img"/></div>
                 </div>
             </div>
             <div className="item__description">
                 <div className="item__title" >V1 BNKR HELMET</div>
                 <div className="item__price">$229</div>
                 <div>color</div>
-                <div>Size - <b>{sizes[activeSize]}</b></div>
+                <div>Size - <b>{activeSize === sizes.length ? 'select size' :sizes[activeSize]}</b></div>
                 <div className="item__size__selector">
                     <ul>
                         {

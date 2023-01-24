@@ -33,7 +33,7 @@ const Home = () => {
                 </div>
             </div>
             {/*<Cart/>*/}
-            <Item />
+            <Item/>
         </div>
     );
 };
