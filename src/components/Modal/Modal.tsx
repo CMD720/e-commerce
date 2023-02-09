@@ -23,7 +23,7 @@ const Modal: FC<ModalProps> =
          children,
      }) => {
 
-        console.log('children',children)
+        // console.log('children',children)
         ///////////
         const dispatch = useAppDispatch()
         const {modalCart, modal} = useAppSelector(modalSelector)

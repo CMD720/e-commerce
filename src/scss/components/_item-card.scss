@@ -443,6 +443,43 @@
       text-transform: none;
       font-style: normal;
     }
+    &__color{
+      display: flex;
+      align-items: center;
+
+      .colors{
+        display: flex;
+        align-items: center;
+        margin:0 0 0 5px;
+
+        b{
+          width: 20px;
+          height: 20px;
+          border: 2px solid $--Dark_Shade_25;
+          border-radius: 50%;
+          margin: 0 5px;
+          cursor: pointer;
+
+          &:hover{
+            opacity: .6;
+          }
+        }
+
+        .red{
+          background-color: rgb(255 0 2);
+        }
+        .black{
+          background-color: rgb(54 54 54);
+        }
+        .white{
+          background-color: rgb(230 232 236);
+        }
+        .activeColor{
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
 
 
     &__size__selector {

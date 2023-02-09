@@ -1,14 +1,22 @@
 import React, {useState} from 'react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import {Link} from "react-router-dom";
+import {nanoid} from "nanoid";
+import {useAppDispatch, useAppSelector} from "../redux/storeHooks";
+import {filterSelector} from "../redux/Filter/selectors";
+import {resetColor, setCategoryId} from "../redux/Filter/slice";
 
 
 const Categories = () => {
+
+    const dispatch = useAppDispatch()
+    const {categoryId, searchValue} = useAppSelector(filterSelector)
+
     const categories = ['All' , 'Googles', 'Helmets', 'Gloves', 'Jersey', 'Pants', 'Boots']
-    const [categoryId, setCategoryId] = useState(categories.length)
     const [burger, setBurger] = useState(false)
 
     const changeCategory = (i: number) => {
-        setCategoryId(i)
+        dispatch(setCategoryId(i))
         setBurger(!burger)
     }
 
@@ -17,11 +25,12 @@ const Categories = () => {
             <ul className={burger ? 'categoriesMenu active' : 'categoriesMenu'}>
                 {
                     categories.map((category, i) => (
-                        <li className={categoryId === categories.length ?'' :categoryId === i ? 'active' : ''}
-                            onClick={() => changeCategory(i)}
-                            key={i}>
-                            {category}
-                        </li>
+                        <Link to={"/items"} key={nanoid()} onClick={()=>dispatch(resetColor())}>
+                            <li className={categoryId === categories.length ?'' :categoryId === i ? 'active' : ''}
+                                onClick={() => changeCategory(i)}>
+                                {category}
+                            </li>
+                        </Link>
                     ))
                 }
             </ul>

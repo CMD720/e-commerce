@@ -1,14 +1,17 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import styles from "./Search.module.scss"
+import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
+import {setSearchValue} from "../../redux/Filter/slice";
+import {filterSelector} from "../../redux/Filter/selectors";
 
 const Search = () => {
-    // const dispatch = useAppDispatch()
-    const [value, setValue] = useState('')
+    const dispatch = useAppDispatch()
+    const {categoryId, searchValue} = useAppSelector(filterSelector)
+
     const inputRef = useRef<HTMLInputElement>(null)
 
     const onClickClear = () => {
-        // dispatch(setSearchValue(''))
-        setValue('')
+        dispatch(setSearchValue(''))
         //оператор опциональной последовательности
         inputRef.current?.focus()
     }
@@ -18,7 +21,7 @@ const Search = () => {
     //     ),[]
     // )
     const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
+        dispatch(setSearchValue(event.target.value));
         // updateSearchValue(event.target.value)
     }
     return (
@@ -26,10 +29,10 @@ const Search = () => {
             <img className={styles.icon} width={22} height={22} src="/img/searchIcon.svg" alt="search_icon"/>
             <input
                 ref={inputRef}
-                value={value}
+                value={searchValue}
                 onChange={onChangeInput}
                 className={styles.input} placeholder="Search..." type="text"/>
-            {value &&
+            {searchValue &&
                 <svg
                     onClick={() => onClickClear()}
                     className={styles.clearIcon}

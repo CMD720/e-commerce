@@ -19,7 +19,7 @@
     "sizes": ["OneSize"],
     "price": 44.95,
     "color": 0,
-    "ctypes": [0, 1]
+    "colortypes": ["red" , "black"]
   },
   {
     "id": "1",
@@ -36,7 +36,7 @@
     "sizes": ["OneSize"],
     "price": 44.95,
     "color": 1,
-    "ctypes": [0, 1]
+    "colortypes": ["red" , "black"]
   },
   {
       "id": "3",
@@ -55,7 +55,7 @@
       "sizes": ["S","M","L","XL"],
       "price": 229.95,
       "color": 0,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
     },
   {
       "id": "4",
@@ -74,7 +74,7 @@
       "sizes": ["S","M","L","XL"],
       "price": 209.95,
       "color": 1,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
     },
   {
       "id": "5",
@@ -93,7 +93,7 @@
       "sizes": ["S","M","L","XL"],
       "price": 209.95,
       "color": 2,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
     },
   {
       "id": "6",
@@ -110,7 +110,7 @@
       "sizes": ["S","M","L","XL"],
       "price": 29.95,
       "color": 0,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
     },
   {
       "id": "7",
@@ -127,7 +127,7 @@
       "sizes": ["S","M","L","XL"],
       "price": 29.95,
       "color": 1,
-      "ctypes": [0, 1, 2]
+        "colortypes": ["red" , "black" , "white"]
     },
   {
       "id": "8",
@@ -144,7 +144,7 @@
       "sizes": ["S","M","L","XL"],
       "price": 29.95,
       "color": 2,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
     },
   {
       "id": "9",
@@ -165,7 +165,7 @@
       "sizes": ["S","M","L","XL"],
       "price": 39.95,
       "color": 0,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
   },
 {
       "id": "10",
@@ -186,7 +186,7 @@
       "sizes": ["S","M","L","XL"],
       "price": 39.95,
       "color": 1,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
   },
 {
       "id": "11",
@@ -207,7 +207,7 @@
       "sizes": ["S","M","L","XL"],
       "price": 39.95,
       "color": 2,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
   },
 {
       "id": "12",
@@ -226,7 +226,7 @@
       "sizes": [28,30,32,34],
       "price": 129.95,
       "color": 0,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
   },
 {
       "id": "13",
@@ -245,7 +245,7 @@
       "sizes": [28,30,32,34],
       "price": 129.95,
       "color": 1,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
   },
 {
       "id": "14",
@@ -264,7 +264,7 @@
       "sizes": [28,30,32,34],
       "price": 129.95,
       "color": 2,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
   },
 {
       "id": "15",
@@ -285,7 +285,7 @@
       "sizes": [9,10,11,12],
       "price": 259.95,
       "color": 0,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
   },
 {
       "id": "16",
@@ -306,7 +306,7 @@
       "sizes": [9,10,11,12],
       "price": 259.95,
       "color": 1,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
   },
 {
       "id": "17",
@@ -327,6 +327,6 @@
       "sizes": [9,10,11,12],
       "price": 259.95,
       "color": 2,
-      "ctypes": [0, 1, 2]
+      "colortypes": ["red" , "black" , "white"]
   }
 ]

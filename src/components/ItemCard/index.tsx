@@ -1,8 +1,20 @@
 import React, {FC, useState} from 'react';
 import {Link} from "react-router-dom";
 
-const ItemCard: FC = () => {
-    const sizes = ['s', 'm', 'l', 'xl']
+type ItemCardProps = {
+    //TODO не все нужны (или так оставить?)
+    id: string;
+    category: number;
+    imageUrl: string[];
+    imageMiniUrl: string[];
+    title: string;
+    sizes: string[];
+    price: number;
+    color: number;
+    colortypes: string[];
+}
+const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) => {
+
     const [activeSize, setActiveSize] = useState(sizes.length)
 
     return (
@@ -10,14 +22,14 @@ const ItemCard: FC = () => {
             <div className="item-block">
                 <div className="item-block__card">
                     <div className="item-block__image">
-                        <Link to={`/item/`}>
+                        <Link to={`/item/${id}`}>
                             <img className="image__card"
-                                src="https://s7d2.scene7.com/is/image/FoxRacing/29659001_1?$dw_pm1$&wid=400&hei=400&fmt=webp-alpha"
-                                // TODO подставить id категории
+                                src={imageUrl[0]}
+                                // TODO подставить id категории нужен массив категорий из endpoint :data
                                  alt="category ID"
                             />
-                            <h3 className="item-block__title">V1 TOXSYK HELMET</h3>
-                            <h4>$229.95</h4>
+                            <h3 className="item-block__title">{title}</h3>
+                            <h4>${price}</h4>
                         </Link>
                     </div>
                     <div className="item-block__bottom">

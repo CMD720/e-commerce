@@ -11,6 +11,7 @@ import CartItem from "./Cart/CartItem";
 import CartItemQuickView from "./Cart/CartItemQuickView";
 import Modal2 from "./Modal/mod2/Modal2";
 import {modalSelector} from "../redux/Modal/selectors";
+import {setReset} from "../redux/Filter/slice";
 
 const Header = () => {
     const dispatch = useAppDispatch()
@@ -24,7 +25,7 @@ const Header = () => {
     return (
         <div className="header">
             <div className="container">
-                <Link to="/">
+                <Link to="/" onClick={()=> dispatch(setReset())}>
                     <div className="header__logo">
                         <img onClick={() => onClickCart()} width={50} height={50} src="/img/logo.svg"
                              alt="fox head - logo"/>

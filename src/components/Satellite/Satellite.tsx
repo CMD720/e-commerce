@@ -8,7 +8,7 @@ const Satellite = () => {
         <div className={styles.satellite__wrapper}>
             {/*pass the complete item to the component. Select a set that matches the color*/}
             <div className={styles.item}>
-                <ItemCard/>
+                {/*<ItemCard/>*/}
             </div>
             {/*<ItemCard/>*/}
             {/*<ItemCard/>*/}
