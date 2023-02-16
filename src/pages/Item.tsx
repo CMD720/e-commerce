@@ -10,27 +10,19 @@ import axios from "axios";
 import Loader from "../components/Loader";
 import {filterSelector} from "../redux/Filter/selectors";
 import {resetColor, setColor} from "../redux/Filter/slice";
+import {fetchItems} from "../redux/Item/fetchItem";
+import {itemDataSelector} from "../redux/Item/selector";
+import {TItem} from "../redux/Item/types";
+import {TCartItem} from "../redux/Cart/types";
+import {addItem} from "../redux/Cart/slice";
 
-// type ItemProps = {
-type ItemType = {
-    //TODO не все нужны (или так оставить?)
-    id: string;
-    category: number;
-    imageUrl: string[];
-    imageMiniUrl: string[];
-    title: string;
-    sizes: string[];
-    price: number;
-    color: number;
-    colortypes: string[];
-}
 
-// const Item: FC<ItemProps> = ({imageUrl, imageMiniUrl, title, sizes, price, color, colortypes}) => {
 const Item: FC = () => {
 
     const {id} = useParams()
     const navigate = useNavigate()
-    const [item, setItem] = useState<ItemType>({
+
+    const [item, setItem] = useState<TItem>({
         id: '',
         category: 0,
         imageUrl: [],
@@ -39,16 +31,13 @@ const Item: FC = () => {
         sizes: [],
         price: 0,
         color: 0,
-        colortypes: [],
+        colortypes: []
     })
-    // const {imageUrl, imageMiniUrl, title, sizes, price, color, colortypes} = item.
-
-
-
 
     const dispatch = useAppDispatch()
     const {modal} = useAppSelector(modalSelector)
     const {categoryId, searchValue, color} = useAppSelector(filterSelector)
+    const {items, status} = useAppSelector(itemDataSelector)
 
     const [isLoading, setIsLoading] = useState(true)
     const [url, setUrl] = useState(item.imageUrl[0])
@@ -60,7 +49,6 @@ const Item: FC = () => {
         setUrl(item.imageUrl[index]);
         setActiveImg(index);
     }
-
     const onClickNextImg = () => {
         const index = activeImg === item.imageUrl.length - 1 ? 0 : activeImg + 1
         setUrl(item.imageUrl[index]);
@@ -79,60 +67,73 @@ const Item: FC = () => {
         navigate(-1)
     }
 
-    //Эмитируем запрос поиска-выборки по цвету - Emulate a color search-select query
-    const changeColor = (data:ItemType[]) => {
-        const result = data.find(item => item.color === color)
-        if(result) {
+    //TODO тест на ошибки
+    //ERRORS
+    //1 ошибка цвета при возврате на пред. страницу кнопкой браузера
+    //2
+    //TODO возникает ошибка по цвету, если вернуться назад по кнопке браузера
+    //Эмулируем запрос поиска-выборки по цвету - Emulate a color search-select query
+    const changeColor = async () => {
+        const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?category=${category}`)
+        const result = data.find((item: TItem) => item.color === color)
+        if (result) {
             setItem(result)
             setUrl(result.imageUrl[0])
-        }else {
+        } else {
             alert('Change color failure')
             navigate(-1)
         }
         setIsLoading(false)
     }
+    const fetchItem = async () => {
+        try {
+            const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items/${id}`)
+            setItem(data)
+            setUrl(data.imageUrl[0])
+            setActiveSize(data.sizes.length)
+            setCategory(data.category)
+            setIsLoading(false)
+        } catch (error) {
+            alert('EFI - (error fetch item)')
+            navigate('/')
+        }
+    }
+    const clickAddCard = () => {
+        if(activeSize === item.sizes.length){
+            alert(`Please, Select size`)
+        } else {
+            const Item:TCartItem = {
+                uId: nanoid(),
+                id: item.id,
+                title: item.title,
+                price: item.price,
+                category: item.category,
+                size: item.sizes[activeSize],
+                image: item.imageUrl[0],
+                itemCount: 0
+            }
+            dispatch(addItem(Item))
+        }
+    }
 
     useEffect(() => {
-        async function fetchItem() {
-            setIsLoading(true)
-            try {
-                if(color >= 0 ) {
-                    // const setcolor = `&color=${color}`
-                    // const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items/${id}?${setcolor}`)
-                    const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?category=${category}`)
-                    changeColor(data)
-                    // setItem(data)
-                    // setUrl(data.imageUrl[0])
-                    // setActiveSize(data.sizes.length)
-                    // setCategory(data.category)
-                    // setIsLoading(false)
-
-                }else{
-                    const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items/${id}`)
-                    setItem(data)
-                    setUrl(data.imageUrl[0])
-                    setActiveSize(data.sizes.length)
-                    setCategory(data.category)
-                    setIsLoading(false)
-                }
-            } catch (error) {
-                alert('EFI - (error fetch item)')
-                navigate('/')
-            }
-        }
-        fetchItem()
-    }, [color])
+        setIsLoading(true)
+        color >= 0
+            ? changeColor()
+            : fetchItem()
+    }, [color,id])
 
     if (!item) {
         return <Loader/>
     }
+
     return (
-        isLoading ? <Loader/>
+        isLoading
+            ? <Loader/>
             : <div className="item__container">
                 <div className="item__slider">
                     <div className="slider__mini">
                         {
-
                             item.imageMiniUrl.map((imgUrl, index) => (
                                 <img onClick={() => onClickImg(index)}
                                      onMouseEnter={() => onClickImg(index)}
@@ -184,13 +185,17 @@ const Item: FC = () => {
                             }
                         </ul>
                     </div>
-                    <div className="item__guide" onClick={() => dispatch(modalOnOff('modal'))}>size guide</div>
-                    <div className="button">Add to Card</div>
+                    {
+                        category !== 1 && category !== 3
+                            ? <div className="item__guide" onClick={() => dispatch(modalOnOff('modal'))}>size guide</div>
+                            : <></>
+                    }
+                    <div onClick={()=> clickAddCard()} className="button">Add to Card</div>
                     <br/>
-                    <div onClick={()=> onClickBack()} className="button">Back</div>
+                    <div onClick={() => onClickBack()} className="button">Back</div>
                 </div>
                 <Modal show={modal}>
-                    <SizeGuide/>
+                    <SizeGuide category={category}/>
                 </Modal>
             </div>
     );

@@ -9,25 +9,28 @@ import BannerTop from "./Banner/BannerTop";
 import ItemCard from "./ItemCard";
 import CartItem from "./Cart/CartItem";
 import CartItemQuickView from "./Cart/CartItemQuickView";
-import Modal2 from "./Modal/mod2/Modal2";
 import {modalSelector} from "../redux/Modal/selectors";
-import {setReset} from "../redux/Filter/slice";
+import {resetColor, setReset} from "../redux/Filter/slice";
+import {cartSelector} from "../redux/Cart/selectors";
 
 const Header = () => {
     const dispatch = useAppDispatch()
     const {modalCart} = useAppSelector(modalSelector)
     const [itemOnCart, setItemOnCart] = useState(false)
+    const {itemsCart, totalPrice, totalCount} = useAppSelector(cartSelector)
 
 
     const onClickCart = () => {
-        setItemOnCart(!itemOnCart)
+        dispatch(modalOnOff('cart'))
+        dispatch(resetColor())
     }
+
     return (
         <div className="header">
             <div className="container">
                 <Link to="/" onClick={()=> dispatch(setReset())}>
                     <div className="header__logo">
-                        <img onClick={() => onClickCart()} width={50} height={50} src="/img/logo.svg"
+                        <img width={50} height={50} src="/img/logo.svg"
                              alt="fox head - logo"/>
                         <div>
                             <h1>foxracing</h1>
@@ -40,9 +43,9 @@ const Header = () => {
                 <div className="header__cart">
                     <Categories/>
                     <Search/>
-                    <div className={itemOnCart ? "cart--icon full" : "cart--icon"}>
-                        <span>9</span>
-                        {itemOnCart
+                    <div className={totalCount !==0 ? "cart--icon full" : "cart--icon"}>
+                        <span>{totalCount}</span>
+                        {totalCount !==0
                             ? <img onClick={() => dispatch(modalOnOff('cart'))} width={25} height={25}
                                    src="/img/cart.svg" alt="cart"/>
                             : <img width={25} height={25} src="/img/cart.svg" alt="cart"/>}

@@ -17,6 +17,7 @@ const Categories = () => {
 
     const changeCategory = (i: number) => {
         dispatch(setCategoryId(i))
+        dispatch(resetColor())
         setBurger(!burger)
     }
 
@@ -25,7 +26,7 @@ const Categories = () => {
             <ul className={burger ? 'categoriesMenu active' : 'categoriesMenu'}>
                 {
                     categories.map((category, i) => (
-                        <Link to={"/items"} key={nanoid()} onClick={()=>dispatch(resetColor())}>
+                        <Link to={"/items"} key={nanoid()}>
                             <li className={categoryId === categories.length ?'' :categoryId === i ? 'active' : ''}
                                 onClick={() => changeCategory(i)}>
                                 {category}

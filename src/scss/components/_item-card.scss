@@ -384,6 +384,7 @@
       .previous__img{
         //position: relative;
         //left: 5px;
+        cursor: pointer;
         .arrow__img{
           transform: rotate(45deg);
         }
@@ -391,6 +392,7 @@
       .next__img{
         //position: relative;
         //right: 5px;
+        cursor: pointer;
         margin-right: 10px;
         .arrow__img{
           transform: rotate(225deg);

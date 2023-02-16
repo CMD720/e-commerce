@@ -13,7 +13,8 @@ export type TItem = {
     sizes: string[];
     price: number;
     color: number;
-    ctypes: number[];
+    // ctypes: number[];
+    colortypes: string[];
 }
 
 export interface ItemsSliceProps {

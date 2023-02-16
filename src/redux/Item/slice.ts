@@ -1,6 +1,6 @@
 import {ItemsSliceProps, Status, TItem} from "./types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchItem} from "./fetchItem";
+import {fetchItems} from "./fetchItem";
 
 const initialState: ItemsSliceProps = {
     items: [],
@@ -18,15 +18,15 @@ export const itemSlice = createSlice({
     },
 
     extraReducers: (builder) => {
-        builder.addCase(fetchItem.fulfilled, (state, action) => {
+        builder.addCase(fetchItems.fulfilled, (state, action) => {
             state.items = action.payload
             state.status = Status.SUCCESS
         })
-        builder.addCase(fetchItem.pending, (state) => {
+        builder.addCase(fetchItems.pending, (state) => {
             state.status = Status.LOADING
             state.items = []
         })
-        builder.addCase(fetchItem.rejected, (state) => {
+        builder.addCase(fetchItems.rejected, (state) => {
             state.status = Status.ERROR
             state.items = []
         })

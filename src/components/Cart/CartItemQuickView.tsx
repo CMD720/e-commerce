@@ -5,26 +5,32 @@ import styles from "./CartItem.module.scss"
 import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
 import {modalSelector} from "../../redux/Modal/selectors";
 import {modalOnOff} from "../../redux/Modal/slice";
+import {cartSelector} from "../../redux/Cart/selectors";
+import {nanoid} from "nanoid";
+import {setReset} from "../../redux/Filter/slice";
 
 const CartItemQuickView = () => {
     const dispatch = useAppDispatch()
+    const {itemsCart, totalPrice, totalCount} = useAppSelector(cartSelector)
     // const {modalCart} = useAppSelector(modalSelector)
+
+    const onClickViewCart = () => {
+        dispatch(modalOnOff('cart'))
+        dispatch(setReset())
+    }
+
+    const cartItems = itemsCart.map(item => <CartItem {...item} key={nanoid()}/>)
     return (
         <div className={styles.quick_view}>
-            <CartItem/>
-            <CartItem/>
-            <CartItem/>
-            <CartItem/>
-            <CartItem/>
-            {/*<ItemCard/>*/}
+            {cartItems}
             <div className={styles.bottom}>
                 <hr/>
                 <div className={styles.estimate_total}>
                     <b>Estimated Total</b>
-                    <b>$ 999</b>
+                    <b>$ {totalPrice}</b>
                 </div>
                 <Link to='/cart'>
-                    <div onClick={() => dispatch(modalOnOff('cart'))}
+                    <div onClick={() => onClickViewCart()}
                          className="button cart__qv__bottom">
                         View Cart
                     </div>

@@ -1,5 +1,11 @@
 import React, {FC, useState} from 'react';
 import {Link} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
+import {nanoid} from "nanoid";
+import {cartSelector} from "../../redux/Cart/selectors";
+import {addItem} from "../../redux/Cart/slice";
+import item from "../../pages/Item";
+import {TCartItem} from "../../redux/Cart/types";
 
 type ItemCardProps = {
     //TODO не все нужны (или так оставить?)
@@ -12,10 +18,31 @@ type ItemCardProps = {
     price: number;
     color: number;
     colortypes: string[];
+
 }
 const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) => {
 
+    const dispatch = useAppDispatch()
+
     const [activeSize, setActiveSize] = useState(sizes.length)
+
+    const clickAddCard = () => {
+        if(activeSize === sizes.length){
+            alert(`Please, Select size`)
+        } else {
+            const Item:TCartItem = {
+                uId: nanoid(),
+                id,
+                title,
+                price,
+                category,
+                size: sizes[activeSize],
+                image: imageUrl[0],
+                itemCount: 0
+            }
+            dispatch(addItem(Item))
+        }
+    }
 
     return (
         <div className="item_wrapper">
@@ -25,8 +52,7 @@ const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) 
                         <Link to={`/item/${id}`}>
                             <img className="image__card"
                                 src={imageUrl[0]}
-                                // TODO подставить id категории нужен массив категорий из endpoint :data
-                                 alt="category ID"
+                                 alt={title}
                             />
                             <h3 className="item-block__title">{title}</h3>
                             <h4>${price}</h4>
@@ -47,7 +73,7 @@ const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) 
                                 }
                             </ul>
                         </div>
-                        <div className="button">add cart</div>
+                        <button  onClick={()=>clickAddCard()} className="button">Add Cart</button>
                     </div>
                 </div>
             </div>

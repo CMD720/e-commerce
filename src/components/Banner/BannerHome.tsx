@@ -12,7 +12,7 @@ const BannerHome = () => {
         <div className={styles.homeWrapper}>
             <div className={styles.homeBanner}>
                 <div className={styles.button_wrapper}>
-                    <Link to={'/item'}>
+                    <Link to={'/set'}>
                         <div className="button">
                             show Set
                         </div>

@@ -10,6 +10,7 @@
     .item {
       &__image {
         margin-right: 20px;
+        cursor: pointer;
 
         img {
           width: 130px;
@@ -77,6 +78,21 @@
     &__count {
       display: flex;
       align-items: center;
+
+      .del {
+        border: 0;
+        background: transparent;
+
+        &:disabled {
+          opacity: 0.4;
+          fill: #807f7f;
+        }
+      }
+      .add {
+        border: 0;
+        background: transparent;
+      }
+
 
       svg {
         margin: 0 5px;

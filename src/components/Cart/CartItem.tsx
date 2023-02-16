@@ -1,44 +1,51 @@
 import React, {FC, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import  styles from './CartItem.module.scss'
+import {TCartItem} from "../../redux/Cart/types";
+import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
+import {addItem, removeItem, removeItemFull} from "../../redux/Cart/slice";
+import {modalOnOff} from "../../redux/Modal/slice";
+import {resetColor, setCategoryId} from "../../redux/Filter/slice";
+import {filterSelector} from "../../redux/Filter/selectors";
 
 type CartItemProps={
-    style?: "quick" | "other" | ""
+    style?: "quick" | "other" | "",
+    item: TCartItem,
 }
 
-const CartItem: FC<CartItemProps> = () => {
+const CartItem: FC<TCartItem> = (item:TCartItem) => {
 
-    const [count, setCount] = useState(1);
-    const cost = 229;
-    const total = cost * count;
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    // const {} = useAppSelector(filterSelector)
 
-    const del = () => {
-      setCount(count-1)
-    }
-    const add = () => {
-      setCount(count+1)
+    const {uId, id, title, size, price, image, itemCount, category} = item
+    const total = parseFloat((price * itemCount).toFixed(2));
+
+    const onClickCart = () => {
+        navigate(`/item/${id}`)
+        dispatch(setCategoryId(category))
+        dispatch(resetColor())
     }
 
     return (
         <div className={styles.cart}>
             <div className={styles.cart__wrapper}>
                 <div className={styles.item__image}>
-                    <Link to={`/item/`}>
-                        <img className="image__card"
-                             src="https://s7d2.scene7.com/is/image/FoxRacing/29659001_1?$dw_pm1$&wid=400&hei=400&fmt=webp-alpha"
-                            // TODO подставить id категории
-                             alt="category ID"
+                    {/*<Link to={`/item/${id}`}>*/}
+                        <img onClick={() => onClickCart()}
+                             src={image}
+                             alt={title}
                         />
-                    </Link>
+                    {/*</Link>*/}
                 </div>
                 <div className={styles.item__features}>
                     <ul>
-                        <li><b>V1 TOXSYK HELMET</b></li>
-                        <li>size:<p>XL</p></li>
-                        <li>color:<p>Black</p></li>
+                        <li><b>{title}</b></li>
+                        <li>size:<p>{size}</p></li>
                     </ul>
                 </div>
-                <div className={styles.item__remove}>
+                <div onClick={() => dispatch(removeItemFull(item))} className={styles.item__remove}>
                     <svg width="15px" height="15px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"/>
                         <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"/>
@@ -46,22 +53,21 @@ const CartItem: FC<CartItemProps> = () => {
                 </div>
             </div>
             <div className={styles.item__value}>
-                {/*<p>Each<b>${cost}</b></p>*/}
                 <ul>
                     <li>Each</li>
-                    <li><b>${cost}</b></li>
+                    <li><b>${price}</b></li>
                 </ul>
                 <div className={styles.item__count}>
-                    <div onClick={()=>del()} className={styles.del}>
+                    <button disabled={itemCount === 1} onClick={()=>dispatch(removeItem(item))} className={styles.del}>
                         <svg width="15" height="15" viewBox="0 0 10 10"
                              xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
                                 ></path>
                         </svg>
-                    </div>
-                    <b>{count}</b>
-                    <div onClick={()=>add()} className={styles.add}>
+                    </button>
+                    <b>{itemCount}</b>
+                    <button onClick={()=>dispatch(addItem(item))} className={styles.add}>
                         <svg width="15" height="15" viewBox="0 0 10 10"
                              xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -71,12 +77,12 @@ const CartItem: FC<CartItemProps> = () => {
                                 d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
                                 ></path>
                         </svg>
-                    </div>
+                    </button>
                 </div>
                 {/*<p className={styles.item__coast}>Total <p><b>{cost * count}</b></p></p>*/}
                 <ul className={styles.item__coast}>
                     <li>Total</li>
-                    <li><b>{cost * count}</b></li>
+                    <li><b>{total}</b></li>
                 </ul>
             </div>
             <hr/>
