@@ -1,29 +1,46 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Link} from "react-router-dom";
 import Search from "./Search";
 import Categories from "./Categories";
 import Modal from "./Modal/Modal";
 import {useAppDispatch, useAppSelector} from "../redux/storeHooks";
 import {modalOnOff} from "../redux/Modal/slice";
-import BannerTop from "./Banner/BannerTop";
-import ItemCard from "./ItemCard";
-import CartItem from "./Cart/CartItem";
 import CartItemQuickView from "./Cart/CartItemQuickView";
 import {modalSelector} from "../redux/Modal/selectors";
 import {resetColor, setReset} from "../redux/Filter/slice";
 import {cartSelector} from "../redux/Cart/selectors";
+import {filterSelector} from "../redux/Filter/selectors";
 
 const Header = () => {
     const dispatch = useAppDispatch()
     const {modalCart} = useAppSelector(modalSelector)
-    const [itemOnCart, setItemOnCart] = useState(false)
+    const {categoryId, searchValue, color} = useAppSelector(filterSelector)
+    const cart = useAppSelector(cartSelector)
     const {itemsCart, totalPrice, totalCount} = useAppSelector(cartSelector)
+    const isMounted = useRef(false)
+    const [itemOnCart, setItemOnCart] = useState(false)
 
 
     const onClickCart = () => {
         dispatch(modalOnOff('cart'))
         dispatch(resetColor())
     }
+
+    useEffect(() => {
+        if (isMounted.current) {
+            const jsonCart = JSON.stringify(cart)
+            localStorage.setItem('cart',jsonCart)
+        }
+        isMounted.current = true
+    },[itemsCart])
+
+    useEffect(() => {
+        if (isMounted.current) {
+            const jsonCategory = JSON.stringify({categoryId})
+            localStorage.setItem('category',jsonCategory)
+        }
+        isMounted.current = true
+    },[categoryId])
 
     return (
         <div className="header">

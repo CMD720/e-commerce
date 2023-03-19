@@ -4,6 +4,7 @@ import './scss/app.scss'
 import Header from "./components/Header";
 import {Route, Routes} from "react-router-dom";
 import Loader from "./components/Loader";
+import BannerTop from "./components/Banner/BannerTop";
 // import Sets from "./pages/Sets";
 // import Items from "./pages/Items";
 // import Item from "./pages/Item";
@@ -18,6 +19,7 @@ function App() {
     return (
         <div className="wrapper">
             <Header/>
+            <BannerTop/>
             <Routes>
                 {/*<Route index element={<Home/>}/>*/}
                 <Route path="/" element={<Home/>}/>

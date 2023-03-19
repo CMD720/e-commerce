@@ -1,11 +1,12 @@
 import React, {FC, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
 import {nanoid} from "nanoid";
 import {cartSelector} from "../../redux/Cart/selectors";
 import {addItem} from "../../redux/Cart/slice";
 import item from "../../pages/Item";
 import {TCartItem} from "../../redux/Cart/types";
+import {resetColor, setCategoryId} from "../../redux/Filter/slice";
 
 type ItemCardProps = {
     //TODO не все нужны (или так оставить?)
@@ -23,6 +24,7 @@ type ItemCardProps = {
 const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) => {
 
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     const [activeSize, setActiveSize] = useState(sizes.length)
 
@@ -36,7 +38,7 @@ const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) 
                 title,
                 price,
                 category,
-                size: sizes[activeSize],
+                size: sizes[activeSize].toString().toUpperCase(),
                 image: imageUrl[0],
                 itemCount: 0
             }
@@ -44,19 +46,25 @@ const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) 
         }
     }
 
+    const onClickCard = () => {
+        navigate(`/item/${id}`)
+        dispatch(setCategoryId(category))
+        dispatch(resetColor())
+    }
+
     return (
         <div className="item_wrapper">
             <div className="item-block">
                 <div className="item-block__card">
-                    <div className="item-block__image">
-                        <Link to={`/item/${id}`}>
+                    <div onClick={() => onClickCard()} className="item-block__image">
+                        {/*<Link to={`/item/${id}`}>*/}
                             <img className="image__card"
                                 src={imageUrl[0]}
                                  alt={title}
                             />
                             <h3 className="item-block__title">{title}</h3>
                             <h4>${price}</h4>
-                        </Link>
+                        {/*</Link>*/}
                     </div>
                     <div className="item-block__bottom">
                         <div className="item-block__selector">

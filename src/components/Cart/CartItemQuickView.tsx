@@ -18,7 +18,6 @@ const CartItemQuickView = () => {
         dispatch(modalOnOff('cart'))
         dispatch(setReset())
     }
-
     const cartItems = itemsCart.map(item => <CartItem {...item} key={nanoid()}/>)
     return (
         <div className={styles.quick_view}>

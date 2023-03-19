@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, FormEvent, useEffect, useRef, useState} from 'react';
 import {TItem} from "../../redux/Item/types";
 import ItemCard from "../ItemCard";
 import {nanoid} from "nanoid";
@@ -11,67 +11,131 @@ import SizeGuide from "../SizeGuide";
 import Modal from "../Modal/Modal";
 import {modalSelector} from "../../redux/Modal/selectors";
 import {modalOnOff} from "../../redux/Modal/slice";
+import CartItem from "../Cart/CartItem";
 
 
 type SetProps = {
-    items: TItem[]
+    items: TItem[],
 }
 const Set: FC<SetProps> = ({items}) => {
 
     const dispatch = useAppDispatch()
-    const {modal} = useAppSelector(modalSelector)
-    const [itemSet, setItemSet] = useState<Element[]>()
+    const [sizesOfSet, setSizesOfSet] = useState<any[]>([])
+    const [activeIndex, setActiveIndex] = useState(false)
+    const setRef = useRef<HTMLInputElement>(null)
 
-    //TODO как добавить размер? || размер добавили, как сделать красиво? форма?
-    const createItemCart = (item:TItem, index:number) => {
-        const sizeOption = item.sizes.map(s => s)
-        const sizeInput = prompt(`Please enter size of ${item.title}`, sizeOption.join(' - '))
 
-        if(sizeInput !== null){
-            const Item:TCartItem = {
-                uId: nanoid(),
-                id: item.id,
-                title: item.title,
-                price: item.price,
-                category: item.category,
-                size: sizeInput.toUpperCase(),
-                image: item.imageUrl[0],
-                itemCount: 0
-            }
-            dispatch(addItem(Item))
-        } else {
-            alert(`Please, Select size`)
-        }
-    }
+
     const onClickAddSet = () => {
-        // setItemSet(items.map((item) => (<img src={item.imageMiniUrl[0]}/>)))
-        // dispatch(modalOnOff('modal'))
-        items.map((item, index) => createItemCart(item , index))
+        setActiveIndex(!activeIndex)
+        // console.log('index-', index);
+        // console.log('items', items);
+        //работает
+        //перенести в сабмит
+        // items.map((item, index) => createItemCart(item, index))
+    }
+    // //////////////
+    // const useFormField = (initialValue: string = '') => {
+    //     const [value, setValue] = React.useState(initialValue);
+    //     const onChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value), []);
+    //     return { value, onChange };
+    // };
+    // const sizeField = useFormField()
+    // /////////////////
+
+
+    // const onClickSubmit = (event:FormEvent) => {
+    const onClickSubmit = (event: React.FormEvent) => {
+        event.preventDefault()
+
+        const formData = new FormData(event.target as HTMLFormElement);
+        items.map((item, index) => {
+            const size = formData.get(`${item.category}`)
+            if (size !== null) {
+                setSizesOfSet(prevState => ([...prevState, size]))
+            }
+        })
+        setActiveIndex(!activeIndex)
+        // if (sizesOfSet.length !== 0) {
+        //     items.map((item, index) => createItemCart(item, index))
+        // }
+    }
+    const createItemCart = (item: TItem, index: number) => {
+        // console.log('item', item);
+        // const sizeOption = item.sizes.map(s => s)
+        // const sizeInput = prompt(`Please enter size of ${item.title}`, sizeOption.join(' - '))
+
+        // if (sizeInput !== null) {
+        const Item: TCartItem = {
+            uId: nanoid(),
+            id: item.id,
+            title: item.title,
+            price: item.price,
+            category: item.category,
+            // size: sizeInput.toUpperCase(),
+            size: (sizesOfSet[index]).toUpperCase(),
+            image: item.imageUrl[0],
+            itemCount: 0
+        }
+        dispatch(addItem(Item))
+        setSizesOfSet([])
+        // } else {
+        //     alert(`Please, Select size`)
+        // }
     }
 
-    const itemsSet = items.map((item) => (<img src={item.imageMiniUrl[0]}/>))
+    // const onChangeForm = (event:string) => {
+    //     console.log('ONCHANGE',event);
+    // }
 
+    const itemsSet = items.map((item) => (
+        <div key={nanoid()}>
+            <img src={item.imageMiniUrl[0]}/>
+            {
+                item.sizes.map((size, index) => (
+                    <b key={nanoid()} style={{marginRight: 20 , userSelect: "none"}}>
+                        {/*<input onChange={(event)=> onChangeForm(event.target.value)} type="radio" name={item.category.toString()} value={size}/>*/}
+                        <label style={{cursor: "pointer"}}>
+                            <input style={{cursor: "pointer"}} type="radio" name={item.category.toString()} value={size}
+                                   defaultChecked={index === 0}/>
+                            {size}
+                        </label>
+                    </b>
+                ))
+            }
+        </div>
+    ))
+
+    useEffect(()=>{
+        if (sizesOfSet.length !== 0) {
+            // console.log('useEffect')
+            items.map((item, index) => createItemCart(item, index))
+        }
+    },[sizesOfSet])
+
+    // console.log('sizesOfSet', sizesOfSet);
+    //TODO remove inline style --- Set.Module.scss
+    //TODO заменить onClickAddSet на setActiveIndex(!activeIndex)???
     return (
-        <div>
-            {/*<div className="container">*/}
-                <div className="home-item">
-                    {
-                        items.map((item) => <ItemCard {...item} key={nanoid()}/>)
-                    }
-                </div>
-            {/*</div>*/}
+        <div onClick={() => setActiveIndex(!activeIndex)}>
+            <div className="home-item">
+                {
+                    items.map((item, index) => <ItemCard {...item} key={nanoid()}/>)
+                }
+            </div>
 
-            <div onClick={() => onClickAddSet()} className="button">Add Set</div>
-            {/*///////////////*/}
-            <Modal show={modal}>
-                <div className="set-size">
-                    {
-                        itemsSet
-                        // items.map((item) => (<img src={item.imageMiniUrl[0]}/>))
-                    }
+            {/*<div onClick={() => onClickAddSet()} className="button">Add Set</div>*/}
+            <div onClick={() => setActiveIndex(!activeIndex)} className="button">Add Set</div>
+            <div className={activeIndex ? "set-size active-size" : "set-size"}>
+                <div onClick={event => event.stopPropagation()} className="set-size__content">
+                    <form onSubmit={onClickSubmit}>
+                        {
+                            itemsSet
+                        }
+                        <input className="button" style={{marginTop: 20}} type="submit" value="Add to Cart"/>
+                    </form>
                 </div>
-            </Modal>
-            {/*/////////////////*/}
+            </div>
         </div>
     );
 };

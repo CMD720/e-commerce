@@ -1,13 +1,14 @@
 import {CartSliceState, TCartItem} from "./types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../store";
+import {getLocalStorage} from "../../utils/getLocalStorage";
 
-// const initCart = getCartFromLS()
+const initCart = getLocalStorage()
 
 const initialState: CartSliceState = {
-    itemsCart: [],
-    totalPrice: 0,
-    totalCount: 0
+    itemsCart: initCart.itemsCart,
+    totalPrice: initCart.totalPrice,
+    totalCount: initCart.totalCount
 }
 
 export const cartSlice = createSlice({

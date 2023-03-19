@@ -15,6 +15,8 @@ import {itemDataSelector} from "../redux/Item/selector";
 import {TItem} from "../redux/Item/types";
 import {TCartItem} from "../redux/Cart/types";
 import {addItem} from "../redux/Cart/slice";
+import Satellite from "../components/Satellite/Satellite";
+import qs from "qs"
 
 
 const Item: FC = () => {
@@ -66,19 +68,23 @@ const Item: FC = () => {
         dispatch(resetColor())
         navigate(-1)
     }
-
     //TODO тест на ошибки
     //ERRORS
-    //1 ошибка цвета при возврате на пред. страницу кнопкой браузера
+    //1 ошибка цвета при возврате на пред. страницу кнопкой браузера(обработка кнопок браузера)
     //2
     //TODO возникает ошибка по цвету, если вернуться назад по кнопке браузера
     //Эмулируем запрос поиска-выборки по цвету - Emulate a color search-select query
+    //TODO проверить не проще ли менять цвет переходом через id найденного товара navigate(`/item/${id}`)
+    // возможно на MongoDB есть сортировка по категории и цвету
+
+    //TODO делает 2 запроса из-за navigate(`/item/${result.id}`) без navi дописать в адресную строку
     const changeColor = async () => {
         const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?category=${category}`)
         const result = data.find((item: TItem) => item.color === color)
         if (result) {
             setItem(result)
             setUrl(result.imageUrl[0])
+            navigate(`/item/${result.id}`)
         } else {
             alert('Change color failure')
             navigate(-1)
@@ -99,16 +105,16 @@ const Item: FC = () => {
         }
     }
     const clickAddCard = () => {
-        if(activeSize === item.sizes.length){
+        if (activeSize === item.sizes.length) {
             alert(`Please, Select size`)
         } else {
-            const Item:TCartItem = {
+            const Item: TCartItem = {
                 uId: nanoid(),
                 id: item.id,
                 title: item.title,
                 price: item.price,
                 category: item.category,
-                size: item.sizes[activeSize],
+                size: item.sizes[activeSize].toString().toUpperCase(),
                 image: item.imageUrl[0],
                 itemCount: 0
             }
@@ -121,82 +127,98 @@ const Item: FC = () => {
         color >= 0
             ? changeColor()
             : fetchItem()
-    }, [color,id])
+    }, [color])
 
     if (!item) {
         return <Loader/>
     }
-
+    //TODO responsive in media
     return (
         isLoading
             ? <Loader/>
-            : <div className="item__container">
-                <div className="item__slider">
-                    <div className="slider__mini">
-                        {
-                            item.imageMiniUrl.map((imgUrl, index) => (
-                                <img onClick={() => onClickImg(index)}
-                                     onMouseEnter={() => onClickImg(index)}
-                                     src={imgUrl} className={activeImg === index ? "active" : ""}
-                                     alt={item.title}
-                                     key={nanoid()}
-                                />
-                            ))
-                        }
+            :
+            <div className="item__container">
+                <div className="test">
+                    <div className="item__wrapper">
+                        <div className="item__slider">
+                            <div className="slider__mini">
+                                {
+                                    item.imageMiniUrl.map((imgUrl, index) => (
+                                        <img onClick={() => onClickImg(index)}
+                                             onMouseEnter={() => onClickImg(index)}
+                                             src={imgUrl} className={activeImg === index ? "active" : ""}
+                                             alt={item.title}
+                                             key={nanoid()}
+                                        />
+                                    ))
+                                }
+                            </div>
+                            <div className="slider__big">
+                                <div className="previous__img" onClick={() => onClickPreviousImg()}>
+                                    <div className="arrow__img"/>
+                                </div>
+                                <img src={url} alt={item.title}/>
+                                <div className="next__img" onClick={() => onClickNextImg()}>
+                                    <div className="arrow__img"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="item__description">
+                            <div className="item__title">{item.title}</div>
+                            <div className="item__price">${item.price}</div>
+                            <div className="item__color">color -
+                                <div className="colors">
+                                    {
+                                        item.colortypes.map((colortype, index) => (
+                                            <b onClick={() => onSelectColor(index)}
+                                               className={item.color !== index ? colortype : `${colortype} activeColor`}
+                                               key={nanoid()}
+                                            >
+                                            </b>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+                            <div>Size
+                                - <b>{activeSize === item.sizes.length ? 'select size' : item.sizes[activeSize]}</b>
+                            </div>
+                            <div className="item__size__selector">
+                                <ul>
+                                    {
+                                        item.sizes.map((size, i) => (
+                                            <li
+                                                className={activeSize === item.sizes.length ? '' : activeSize === i ? 'active' : ''}
+                                                onClick={() => setActiveSize(i)}
+                                                key={nanoid()}>
+                                                {size}
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                            {
+                                category !== 1 && category !== 3
+                                    ?
+                                    <div className="item__guide" onClick={() => dispatch(modalOnOff('modal'))}>size
+                                        guide</div>
+                                    : <></>
+                            }
+                            <div onClick={() => clickAddCard()} className="button">Add to Card</div>
+                            <br/>
+                            <div onClick={() => onClickBack()} className="button">Back</div>
+                        </div>
+
+
+                        <Modal show={modal}>
+                            <SizeGuide category={category}/>
+                        </Modal>
                     </div>
-                    <div className="slider__big">
-                        <div className="previous__img" onClick={() => onClickPreviousImg()}>
-                            <div className="arrow__img"/>
-                        </div>
-                        <img src={url} alt={item.title}/>
-                        <div className="next__img" onClick={() => onClickNextImg()}>
-                            <div className="arrow__img"/>
-                        </div>
+                    <hr/>
+                    <div className="item__bottom">
+                        <p>WITH THIS PRODUCT BUY...</p>
+                        <Satellite item={item}/>
                     </div>
                 </div>
-                <div className="item__description">
-                    <div className="item__title">{item.title}</div>
-                    <div className="item__price">${item.price}</div>
-                    <div className="item__color">color -
-                        <div className="colors">
-                            {
-                                item.colortypes.map((colortype, index) => (
-                                    <b onClick={() => onSelectColor(index)}
-                                       className={item.color !== index ? colortype : `${colortype} activeColor`}
-                                       key={nanoid()}
-                                    >
-                                    </b>
-                                ))
-                            }
-                        </div>
-                    </div>
-                    <div>Size - <b>{activeSize === item.sizes.length ? 'select size' : item.sizes[activeSize]}</b></div>
-                    <div className="item__size__selector">
-                        <ul>
-                            {
-                                item.sizes.map((size, i) => (
-                                    <li
-                                        className={activeSize === item.sizes.length ? '' : activeSize === i ? 'active' : ''}
-                                        onClick={() => setActiveSize(i)}
-                                        key={nanoid()}>
-                                        {size}
-                                    </li>
-                                ))
-                            }
-                        </ul>
-                    </div>
-                    {
-                        category !== 1 && category !== 3
-                            ? <div className="item__guide" onClick={() => dispatch(modalOnOff('modal'))}>size guide</div>
-                            : <></>
-                    }
-                    <div onClick={()=> clickAddCard()} className="button">Add to Card</div>
-                    <br/>
-                    <div onClick={() => onClickBack()} className="button">Back</div>
-                </div>
-                <Modal show={modal}>
-                    <SizeGuide category={category}/>
-                </Modal>
             </div>
     );
 };

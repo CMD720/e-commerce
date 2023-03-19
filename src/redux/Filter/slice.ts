@@ -1,8 +1,11 @@
-import {FilterSliceState} from "./types";
+import {FilterSliceState, TSetFilters} from "./types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {getCategoryIDFromLS} from "../../utils/getLocalStorage";
+
+const initCategory = getCategoryIDFromLS()
 
 const initialState: FilterSliceState = {
-    categoryId: -1,
+    categoryId: initCategory.categoryId,
     searchValue: '',
     color: -1,
 }
@@ -17,7 +20,7 @@ export const filterSlice = createSlice({
         setSearchValue(state, action: PayloadAction<string>) {
             state.searchValue = action.payload;
         },
-        setColor(state, action:PayloadAction<number>) {
+        setColor(state, action: PayloadAction<number>) {
             state.color = action.payload
         },
         setReset(state) {
@@ -27,9 +30,16 @@ export const filterSlice = createSlice({
         },
         resetColor(state) {
             state.color = -1
+        },
+        setFilters(state, action: PayloadAction<TSetFilters>) {
+            if (Object.keys(action.payload).length) {
+                state.categoryId = Number(action.payload.categoryId)
+            } else {
+                state.categoryId = 0
+            }
         }
     }
 })
 
-export const {setCategoryId, setSearchValue, setColor, setReset, resetColor} = filterSlice.actions
+export const {setCategoryId, setSearchValue, setColor, setReset, resetColor, setFilters} = filterSlice.actions
 export default filterSlice.reducer

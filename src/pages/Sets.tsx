@@ -25,7 +25,6 @@ const Sets = () => {
     // const[items, setItems] = useState<TItem[]>([])
     const[items, setItems] = useState<any[]>([])
 
-    const[setss, setSets] = useState<any[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const colortypes = ["red" , "black" , "white"]
 
@@ -33,11 +32,11 @@ const Sets = () => {
         colortypes.map(async(color, index) => {
             const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?&color=${index}`)
             setItems(prevState => ([ ...prevState, data ]))
-            setSets(prevState => ([ ...prevState, data.map((item:any) => <ItemCard {...item} key={nanoid()}/>) ]))
             // console.log(index);
             // console.log('data',data);
+            setIsLoading(false)
         })
-        setIsLoading(false)
+
     }
 
     useEffect(() => {
@@ -45,10 +44,9 @@ const Sets = () => {
         getSet()
     }, [])
 
-    const products = items.map((item) => <Set items={item} key={nanoid()}/>)
+    const products = items.map((item, index) => <Set items={item} key={nanoid()}/>)
 
-    console.log('ITEMS',items);
-    console.log('SET',setss);
+    // console.log('ITEMS',items);
     return (
         <div>
             <div className="container">
@@ -57,13 +55,13 @@ const Sets = () => {
                         isLoading
                             ? <Loader/>
                             : products
-                            // : setss
                     }
                 {/*</div>*/}
             <br/>
                 {
                     isLoading
                         ? <></>
+                        // ? <Loader/>
                         : <div className="button" onClick={() => navigate(-1)}>Back</div>
                 }
             </div>

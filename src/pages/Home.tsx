@@ -7,9 +7,9 @@ const Home = () => {
 
     return (
         <div className="home">
-            <div className='home-top'>
-                <BannerTop/>
-            </div>
+            {/*<div className='home-top'>*/}
+            {/*    <BannerTop/>*/}
+            {/*</div>*/}
             <div className="container">
                 <BannerHome/>
                 <div className="home-item">

@@ -52,8 +52,8 @@ const Cart = () => {
                     </div>
                 </div>
                 <div className="bottom__cart">
-                    <p>YOU MAY ALSO LIKE...</p>
-                    <Satellite/>
+                    {/*<p>YOU MAY ALSO LIKE...</p>*/}
+                    {/*<Satellite/>*/}
                 </div>
             </div>
 

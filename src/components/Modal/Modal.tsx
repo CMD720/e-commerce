@@ -62,7 +62,7 @@ const Modal: FC<ModalProps> =
         }, [handleKeyPress, show])
 
 
-        console.log("show - ",show)
+        // console.log("show - ",show)
 
         return (
             <>
