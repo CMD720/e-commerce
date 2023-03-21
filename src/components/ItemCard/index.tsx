@@ -21,7 +21,7 @@ type ItemCardProps = {
     colortypes: string[];
 
 }
-const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) => {
+const ItemCard: FC<ItemCardProps> = ({id, imageUrl, title, sizes, price, category}) => {
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -29,10 +29,10 @@ const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) 
     const [activeSize, setActiveSize] = useState(sizes.length)
 
     const clickAddCard = () => {
-        if(activeSize === sizes.length){
+        if (activeSize === sizes.length) {
             alert(`Please, Select size`)
         } else {
-            const Item:TCartItem = {
+            const Item: TCartItem = {
                 uId: nanoid(),
                 id,
                 title,
@@ -57,14 +57,12 @@ const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) 
             <div className="item-block">
                 <div className="item-block__card">
                     <div onClick={() => onClickCard()} className="item-block__image">
-                        {/*<Link to={`/item/${id}`}>*/}
-                            <img className="image__card"
-                                src={imageUrl[0]}
-                                 alt={title}
-                            />
-                            <h3 className="item-block__title">{title}</h3>
-                            <h4>${price}</h4>
-                        {/*</Link>*/}
+                        <img className="image__card"
+                             src={imageUrl[0]}
+                             alt={title}
+                        />
+                        <h3 className="item-block__title">{title}</h3>
+                        <h4>${price}</h4>
                     </div>
                     <div className="item-block__bottom">
                         <div className="item-block__selector">
@@ -81,7 +79,7 @@ const ItemCard: FC<ItemCardProps> = ({id, imageUrl,title,sizes,price,category}) 
                                 }
                             </ul>
                         </div>
-                        <button  onClick={()=>clickAddCard()} className="button">Add Cart</button>
+                        <button onClick={() => clickAddCard()} className="button">Add Cart</button>
                     </div>
                 </div>
             </div>

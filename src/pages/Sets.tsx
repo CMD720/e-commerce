@@ -23,15 +23,15 @@ const Sets = () => {
     //TODO разобраться с типами у items
 
     // const[items, setItems] = useState<TItem[]>([])
-    const[items, setItems] = useState<any[]>([])
+    const [items, setItems] = useState<any[]>([])
 
     const [isLoading, setIsLoading] = useState(true)
-    const colortypes = ["red" , "black" , "white"]
+    const colortypes = ["red", "black", "white"]
 
     const getSet = () => {
-        colortypes.map(async(color, index) => {
+        colortypes.map(async (color, index) => {
             const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?&color=${index}`)
-            setItems(prevState => ([ ...prevState, data ]))
+            setItems(prevState => ([...prevState, data]))
             // console.log(index);
             // console.log('data',data);
             setIsLoading(false)
@@ -50,14 +50,11 @@ const Sets = () => {
     return (
         <div>
             <div className="container">
-            {/*    <div className="home-item">*/}
-                    {
-                        isLoading
-                            ? <Loader/>
-                            : products
-                    }
-                {/*</div>*/}
-            <br/>
+                {
+                    isLoading
+                        ? <Loader/>
+                        : products
+                }
                 {
                     isLoading
                         ? <></>

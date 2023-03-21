@@ -13,6 +13,7 @@ const Cart = () => {
     const {itemsCart, totalPrice, totalCount} = useAppSelector(cartSelector)
 
     const [promo, setPromo] = useState(false)
+    const [tooltips, setTooltips] = useState(false)
 
 
     //TODO бесплатная доставка. проверяем тоталПрайс и показываем сколько добрать для фрииШипа или что уже есть фрииШип
@@ -34,8 +35,20 @@ const Cart = () => {
                     <div className="price__cart">
                         <div className="promo__wrapper">
                             <div className="set__promo" onClick={() => setPromo(!promo)}>
-                                <p>I Have a Promo Code</p>
-                                <p>+</p>
+                                <div className="promo__question">
+                                    <p>I Have a Promo Code</p>
+                                    {
+                                        promo && <div className="question__wrapper">
+                                                    <img onMouseEnter={()=>setTooltips(true)}
+                                                        onMouseLeave={()=>setTooltips(false)}
+                                                        width={17} height={17} src="/img/question-square.svg" alt="cart"/>
+                                                    <div className={tooltips ?"tooltips__on" :"tooltips"}>
+                                                        <p>try PROMO25 , PROMO50 and PROMOFREE</p>
+                                                    </div>
+                                                </div>
+                                    }
+                                </div>
+                                <p className="add__promo">+</p>
                             </div>
                             <div className={promo ? "promo__on" : "promo"}>
                                 <input className="text_field"  type="text" placeholder="Enter Promo"/>

@@ -28,23 +28,8 @@ const Set: FC<SetProps> = ({items}) => {
 
     const onClickAddSet = () => {
         setActiveIndex(!activeIndex)
-        // console.log('index-', index);
-        // console.log('items', items);
-        //работает
-        //перенести в сабмит
-        // items.map((item, index) => createItemCart(item, index))
     }
-    // //////////////
-    // const useFormField = (initialValue: string = '') => {
-    //     const [value, setValue] = React.useState(initialValue);
-    //     const onChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value), []);
-    //     return { value, onChange };
-    // };
-    // const sizeField = useFormField()
-    // /////////////////
 
-
-    // const onClickSubmit = (event:FormEvent) => {
     const onClickSubmit = (event: React.FormEvent) => {
         event.preventDefault()
 
@@ -115,24 +100,31 @@ const Set: FC<SetProps> = ({items}) => {
 
     // console.log('sizesOfSet', sizesOfSet);
     //TODO remove inline style --- Set.Module.scss
-    //TODO заменить onClickAddSet на setActiveIndex(!activeIndex)???
     return (
-        <div onClick={() => setActiveIndex(!activeIndex)}>
+        // <div onClick={() => setActiveIndex(!activeIndex)}>
+        <div onClick={(e) => {
+            activeIndex ?setActiveIndex(false) : e.stopPropagation()
+            if(activeIndex){
+                setActiveIndex(false)
+            }
+        }}>
+        {/*<div>*/}
             <div className="home-item">
                 {
                     items.map((item, index) => <ItemCard {...item} key={nanoid()}/>)
                 }
             </div>
-
-            {/*<div onClick={() => onClickAddSet()} className="button">Add Set</div>*/}
-            <div onClick={() => setActiveIndex(!activeIndex)} className="button">Add Set</div>
+            <div onClick={() => setActiveIndex(true)} className="button addSet">Add Set</div>
             <div className={activeIndex ? "set-size active-size" : "set-size"}>
                 <div onClick={event => event.stopPropagation()} className="set-size__content">
                     <form onSubmit={onClickSubmit}>
                         {
                             itemsSet
                         }
-                        <input className="button" style={{marginTop: 20}} type="submit" value="Add to Cart"/>
+                        <div style={{display: "flex", justifyContent:"space-between"}}>
+                        <input className="button set" style={{marginTop: 20}} type="submit" value="Add to Cart"/>
+                        <input className="button set" style={{marginTop: 20}} type="button" onClick={()=>setActiveIndex(false)} value="Cancel"/>
+                        </div>
                     </form>
                 </div>
             </div>

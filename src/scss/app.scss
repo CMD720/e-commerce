@@ -121,6 +121,25 @@ body {
     grid-row-gap: 5px;
   }
 
+  @media (max-width: 700px) {
+    .home-item{
+      //display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      //grid-template-rows: 1fr;
+      //grid-column-gap: 5px;
+      //grid-row-gap: 5px;
+    }
+  }
+  @media (max-width: 600px) {
+    .home-item {
+      //display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      //grid-template-rows: 1fr;
+      //grid-column-gap: 5px;
+      //grid-row-gap: 5px;
+    }
+  }
+
 }
 .set-size{
   //height: 100px;
@@ -188,11 +207,62 @@ body {
       .promo__wrapper{
 
         .set__promo{
-          cursor: pointer;
+          //cursor: pointer;
           margin: 10px 10px;
           display: flex;
           justify-content: space-between;
           user-select: none;
+
+          .promo__question{
+            display: flex;
+
+            .question__wrapper{
+              position: relative;
+              display: flex;
+
+              img{
+                margin-left: 8px;
+                opacity: .4;
+                cursor: pointer;
+              }
+              .tooltips{
+                display: none;
+                //position: absolute;
+                //width: 250px;
+                //background-color: $--Dark_Shade_25;
+                //padding: 6px 12px;
+                //border-radius: 5px;
+                //top: -500px;
+                //left: 25px;
+                //transition-duration: .7s;
+                transition-delay: .4s;
+
+
+                &__on{
+                  display: flex;
+                  position: absolute;
+                  width: 250px;
+                  background-color: $--Dark_Shade_25;
+                  padding: 6px 12px;
+                  border-radius: 5px;
+                  top: -55px;
+                  left: 25px;
+                  transition-duration: .7s;
+                  opacity: .8;
+                  pointer-events: none;
+
+                }
+              }
+            }
+          }
+
+          .add__promo{
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            //border:solid 1px black;
+            text-align: center;
+          }
         }
 
         .promo{
@@ -384,7 +454,7 @@ body {
         svg {
           width: 11.5px;
           height: 11.5px;
-          position: relative;
+          //position: relative;
         }
         &:hover,
         &:active {

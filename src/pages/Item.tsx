@@ -121,13 +121,13 @@ const Item: FC = () => {
             dispatch(addItem(Item))
         }
     }
-
+    //TODO двойной запроса при смене цвета
     useEffect(() => {
         setIsLoading(true)
         color >= 0
             ? changeColor()
             : fetchItem()
-    }, [color])
+    }, [color, id])
 
     if (!item) {
         return <Loader/>
