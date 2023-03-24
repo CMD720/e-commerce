@@ -43,7 +43,6 @@ const Items = () => {
         getItems()
     }, [categoryId, searchValue])
 
-    //////////////////// TODO записать состояние фильтра categoryID в LocalStorage
     useEffect(() => {
         if(window.location.search){
             const params = qs.parse(window.location.search.substring(1)) as unknown as TSetFilters
@@ -51,7 +50,7 @@ const Items = () => {
             dispatch(setFilters({...params}))
         }
     },[])
-    /////////////////////
+
     const products = items.map((item: TItem) => <ItemCard {...item} key={nanoid()}/>)
 
     //TODO сделать свои классы scss для items (вместо home-item)  +  media для grid

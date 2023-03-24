@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import  styles from './CartItem.module.scss'
 import {TCartItem} from "../../redux/Cart/types";
@@ -7,11 +7,12 @@ import {addItem, removeItem, removeItemFull} from "../../redux/Cart/slice";
 import {modalOnOff} from "../../redux/Modal/slice";
 import {resetColor, setCategoryId} from "../../redux/Filter/slice";
 import {filterSelector} from "../../redux/Filter/selectors";
+import {getDiscount} from "../../utils/getDiscount";
 
-type CartItemProps={
-    style?: "quick" | "other" | "",
-    item: TCartItem,
-}
+// type CartItemProps={
+//     style?: "quick" | "other" | "",
+//     item: TCartItem,
+// }
 
 const CartItem: FC<TCartItem> = (item:TCartItem) => {
 
@@ -21,13 +22,26 @@ const CartItem: FC<TCartItem> = (item:TCartItem) => {
 
     const {uId, id, title, size, price, image, itemCount, category} = item
     const total = parseFloat((price * itemCount).toFixed(2));
-
+    const [discount, setDiscount] = useState<number>(0)
     const onClickCart = () => {
         navigate(`/item/${id}`)
         dispatch(setCategoryId(category))
         dispatch(resetColor())
     }
 
+    const onClickRemoveItem = () => {
+        if(window.confirm("Are you sure, you want to remove?")){
+            dispatch(removeItemFull(item))
+        }
+    }
+
+    useEffect(() => {
+        if(itemCount >= 3){
+            const d = getDiscount(price, itemCount)
+            // console.log('getDisc', d);
+            setDiscount(d.discount)
+        }
+    },[itemCount])
     return (
         <div className={styles.cart}>
             <div className={styles.cart__wrapper}>
@@ -46,6 +60,7 @@ const CartItem: FC<TCartItem> = (item:TCartItem) => {
                     </ul>
                 </div>
                 <div onClick={() => dispatch(removeItemFull(item))} className={styles.item__remove}>
+                {/*<div onClick={() => onClickRemoveItem()} className={styles.item__remove}>*/}
                     <svg width="15px" height="15px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"/>
                         <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"/>
@@ -82,7 +97,13 @@ const CartItem: FC<TCartItem> = (item:TCartItem) => {
                 {/*<p className={styles.item__coast}>Total <p><b>{cost * count}</b></p></p>*/}
                 <ul className={styles.item__coast}>
                     <li>Total</li>
-                    <li><b>{total}</b></li>
+
+                    {itemCount>=3
+                        ? <div>
+                            <li><b><s>{total}</s></b></li>
+                            <li><b>{discount}</b></li>
+                          </div>
+                        :<li><b>{total}</b></li>}
                 </ul>
             </div>
             <hr/>

@@ -272,6 +272,7 @@ body {
             display: flex;
             flex-direction: column;
             margin: 0 20px;
+            position: relative;
 
             .text_field{
               padding: 13px 15px;
@@ -297,18 +298,93 @@ body {
                 color: $--Dark_Shade_75;
               }
             }
+
+            .clearIcon{
+              //width: 18px;
+              //height: 18px;
+              opacity: 0.3;
+              position: absolute;
+              right: 10px;
+              top: 11px;
+              cursor: pointer;
+              margin-right: 5px;
+            }
+
           }
         }
       }
-
-      .estimate_total{
+      .estimate_total-wrapper{
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
 
-        b{
-          margin: 10px;
+        .apply_promo-wrapper{
+          display: flex;
+          justify-content: space-between;
+          opacity: .5;
+
+          .apply_promo{
+            margin: 10px 10px 10px 20px;
+            //opacity: .5;
+            font-size: small;
+          }
+          .apply_promo-count{
+            display:flex;
+
+            span{
+              margin: 10px 0;
+            }
+
+            .total_discount{
+              margin-right: 38px;
+            }
+
+            .resetPromo{
+              margin: 10px;
+              //opacity: .3;
+              cursor: pointer;
+            }
+          }
+
+        }
+
+        .estimate_total{
+          //width: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          b{
+            //margin: 10px;
+            //opacity: 1;
+            margin: 10px;
+          }
+        }
+
+        .discount{
+          display: flex;
+          justify-content: space-between;
+
+          &__text{
+            margin: 10px;
+          }
+          .discount_dropdown-wrapper{
+            display: flex;
+
+            span{
+              margin: 10px 0px;
+            }
+            .discount_dropdown{
+              cursor: pointer;
+              margin: 10px;
+              transition-duration: .5s;
+            }
+            .down {
+              transform: rotateZ(180deg);
+            }
+          }
+
         }
       }
+
     }
 
   }

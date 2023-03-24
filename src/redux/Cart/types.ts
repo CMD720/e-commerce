@@ -15,4 +15,5 @@ export interface CartSliceState {
     itemsCart: TCartItem[],
     totalPrice: number,
     totalCount: number
+    totalDiscount: number
 }

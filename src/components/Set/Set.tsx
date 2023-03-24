@@ -101,9 +101,8 @@ const Set: FC<SetProps> = ({items}) => {
     // console.log('sizesOfSet', sizesOfSet);
     //TODO remove inline style --- Set.Module.scss
     return (
-        // <div onClick={() => setActiveIndex(!activeIndex)}>
         <div onClick={(e) => {
-            activeIndex ?setActiveIndex(false) : e.stopPropagation()
+            // activeIndex ?setActiveIndex(false) : e.stopPropagation()
             if(activeIndex){
                 setActiveIndex(false)
             }
