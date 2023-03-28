@@ -40,7 +40,8 @@ const ItemCard: FC<ItemCardProps> = ({id, imageUrl, title, sizes, price, categor
                 category,
                 size: sizes[activeSize].toString().toUpperCase(),
                 image: imageUrl[0],
-                itemCount: 0
+                itemCount: 0,
+                itemDiscount: 0
             }
             dispatch(addItem(Item))
         }

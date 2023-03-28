@@ -116,7 +116,8 @@ const Item: FC = () => {
                 category: item.category,
                 size: item.sizes[activeSize].toString().toUpperCase(),
                 image: item.imageUrl[0],
-                itemCount: 0
+                itemCount: 0,
+                itemDiscount: 0
             }
             dispatch(addItem(Item))
         }

@@ -60,7 +60,8 @@ const Set: FC<SetProps> = ({items}) => {
             // size: sizeInput.toUpperCase(),
             size: (sizesOfSet[index]).toUpperCase(),
             image: item.imageUrl[0],
-            itemCount: 0
+            itemCount: 0,
+            itemDiscount: 0
         }
         dispatch(addItem(Item))
         setSizesOfSet([])

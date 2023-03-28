@@ -8,6 +8,7 @@ export type TCartItem = {
     price: number,
     image: string,
     itemCount: number,
+    itemDiscount: number,
 
 }
 
