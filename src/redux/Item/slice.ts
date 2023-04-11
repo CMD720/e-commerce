@@ -11,14 +11,17 @@ export const itemSlice = createSlice({
     name: 'item',
     initialState,
     reducers: {
-        setItems(state, action: PayloadAction<TItem[]>) {
-            state.items = action.payload
-            state.status = Status.SUCCESS
+        setItems:(state, action: PayloadAction<TItem[]>) => {
         }
     },
 
     extraReducers: (builder) => {
         builder.addCase(fetchItems.fulfilled, (state, action) => {
+            /////////////
+
+
+
+            //////////////
             state.items = action.payload
             state.status = Status.SUCCESS
         })

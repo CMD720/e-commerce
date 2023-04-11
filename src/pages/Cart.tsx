@@ -1,28 +1,35 @@
 import React, {useEffect, useRef, useState} from 'react';
-import CartItem from "../components/Cart/CartItem";
-import Satellite from "../components/Satellite/Satellite";
-import styles from "../components/Cart/CartItem.module.scss";
+import {CartItem, OrderDiscount} from "../components";
 import {useAppDispatch, useAppSelector} from "../redux/storeHooks";
 import {cartSlice} from "../redux/Cart/slice";
 import {cartSelector} from "../redux/Cart/selectors";
 import {nanoid} from "nanoid";
 import {getDiscount} from "../utils/getDiscount";
-import OrderDiscount from "../components/Cart/orderDiscount";
+// import OrderDiscount from "../components/OrderDiscount/orderDiscount";
 import {useNavigate} from "react-router-dom";
 import Footer from "../components/Footer";
 
 const Cart = () => {
-    //TODO упаковать промо , стоймость и оплату в отдельный компонент
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const {itemsCart, totalPrice, totalCount, totalDiscount} = useAppSelector(cartSelector)
 
 
-    //TODO бесплатная доставка. проверяем тоталПрайс и показываем сколько добрать для фрииШипа или что уже есть фрииШип
     //TODO полная очистка корзины
-    //TODO рендер пустой корзины типа: "Ваша корзина пуста" и кнопка на главную или нулевую категорию
+    //TODO клик по home в пустой корзине сброс categoryId
     const cartItems = itemsCart.map(item => <CartItem {...item} key={nanoid()}/>)
 
+    // if (!totalPrice) {
+    //     return <div className="cart--empty">
+    //         <h2 className="content__title">
+    //             Cart is empty
+    //         </h2>
+    //         <div className="prompt">
+    //             try add something to cart
+    //         </div>
+    //         <div className="button" onClick={() => navigate("/")}>Home</div>
+    //     </div>
+    // }
 
     return (
         <div className="container">

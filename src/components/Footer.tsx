@@ -1,13 +1,6 @@
 import React from 'react';
+import {FooterBlock} from "./index";
 
-const Footer = () => {
-    return (
-        <div >
-            <img className="footer-logo"
-                 src="https://www.foxracing.com/on/demandware.static/Sites-FoxUS-Site/-/default/dw33d892bf/images/logo-light.svg"
-                 alt="Fox Racing"/>
-        </div>
-    );
-};
+const Footer = () => <FooterBlock/>
 
 export default Footer;

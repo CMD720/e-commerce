@@ -5,7 +5,6 @@ import {nanoid} from "nanoid";
 import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
 
 const OrderDiscount = () => {
-
     const dispatch = useAppDispatch()
     const {itemsCart, totalPrice, totalCount, totalDiscount} = useAppSelector(cartSelector)
 

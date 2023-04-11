@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import ItemCard from "../ItemCard";
+import {ItemCard} from "../index";
 import styles from "./Stelite.module.scss"
 import axios from "axios";
 import {TItem} from "../../redux/Item/types";

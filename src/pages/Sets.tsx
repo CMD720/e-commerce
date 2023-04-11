@@ -4,11 +4,11 @@ import {filterSelector} from "../redux/Filter/selectors";
 import {itemDataSelector} from "../redux/Item/selector";
 import {useNavigate} from "react-router-dom";
 import {fetchItems} from "../redux/Item/fetchItem";
-import Loader from "../components/Loader";
+import {Loader, Set} from "../components";
 import {setReset} from "../redux/Filter/slice";
 import {TItem} from "../redux/Item/types";
 import ItemCard from "../components/ItemCard";
-import Set from "../components/Set/Set"
+// import Set from "../components/Set/Set"
 import {nanoid} from "nanoid";
 import axios from "axios";
 
@@ -32,6 +32,8 @@ const Sets = () => {
         colortypes.map(async (color, index) => {
             const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?&color=${index}`)
             setItems(prevState => ([...prevState, data]))
+
+            // setItems(...items, data)
             // console.log(index);
             // console.log('data',data);
             setIsLoading(false)
@@ -46,7 +48,7 @@ const Sets = () => {
 
     const products = items.map((item, index) => <Set items={item} key={nanoid()}/>)
 
-    // console.log('ITEMS',items);
+    console.log('ITEMS',items);
     return (
         <div>
             <div className="container">

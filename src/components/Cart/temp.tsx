@@ -7,11 +7,10 @@ import {cartSlice} from "../../redux/Cart/slice";
 import {cartSelector} from "../../redux/Cart/selectors";
 import {nanoid} from "nanoid";
 import {getDiscount} from "../../utils/getDiscount";
-import OrderDiscount from "../Cart/orderDiscount";
+import OrderDiscount from "../OrderDiscount/orderDiscount";
 
 
 const Cart = () => {
-    //TODO упаковать промо , стоймость и оплату в отдельный компонент
     const dispatch = useAppDispatch()
     const {itemsCart, totalPrice, totalCount, totalDiscount} = useAppSelector(cartSelector)
 
@@ -78,7 +77,6 @@ const Cart = () => {
         setToOrder(parseFloat((totalPrice - valueDiscount).toFixed(2)))
     }
 
-    //TODO бесплатная доставка. проверяем тоталПрайс и показываем сколько добрать для фрииШипа или что уже есть фрииШип
     //TODO полная очистка корзины
     const cartItems = itemsCart.map(item => <CartItem {...item} key={nanoid()}/>)
 

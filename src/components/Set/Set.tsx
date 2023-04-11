@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FC, FormEvent, useEffect, useRef, useState} from 'react';
 import {TItem} from "../../redux/Item/types";
-import ItemCard from "../ItemCard";
+import {ItemCard} from "../index";
 import {nanoid} from "nanoid";
 import {setReset} from "../../redux/Filter/slice";
 import Loader from "../Loader";

@@ -1,9 +1,9 @@
 import {CartSliceState, TCartItem} from "./types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {getLocalStorage} from "../../utils/getLocalStorage";
-import {getDiscount, tlDiscount} from "../../utils/getDiscount";
+import {getCartLocalStorage} from "../../utils/getLocalStorage";
+import {getDiscount, ttlDiscount} from "../../utils/getDiscount";
 
-const initCart = getLocalStorage()
+const initCart = getCartLocalStorage()
 
 const initialState: CartSliceState = {
     itemsCart: initCart.itemsCart,
@@ -38,7 +38,7 @@ export const cartSlice = createSlice({
             //     state.totalDiscount = parseFloat((state.totalDiscount + findItem.itemDiscount).toFixed(2))
             // }else {state.itemsCart.push({...action.payload, itemCount: 1})}
 
-            state.totalDiscount = tlDiscount(state.itemsCart)
+            state.totalDiscount = ttlDiscount(state.itemsCart)
             state.totalPrice = parseFloat((state.totalPrice + action.payload.price).toFixed(2))
             state.totalCount++
         },
@@ -63,7 +63,7 @@ export const cartSlice = createSlice({
                     state.itemsCart = state.itemsCart.filter(item => item.uId !== action.payload.uId)
                 }
             }
-            state.totalDiscount = tlDiscount(state.itemsCart)
+            state.totalDiscount = ttlDiscount(state.itemsCart)
             state.totalPrice = parseFloat((state.totalPrice - action.payload.price).toFixed(2))
             state.totalCount--
         },
@@ -74,7 +74,7 @@ export const cartSlice = createSlice({
             // }
             state.itemsCart = state.itemsCart.filter(item => item.uId !== action.payload.uId)
 
-            state.totalDiscount = tlDiscount(state.itemsCart)
+            state.totalDiscount = ttlDiscount(state.itemsCart)
             state.totalPrice =parseFloat((state.totalPrice - (action.payload.itemCount * action.payload.price)).toFixed(2))
             state.totalCount -= action.payload.itemCount
 

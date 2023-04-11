@@ -1,13 +1,13 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../redux/storeHooks";
 import {modalOnOff} from "../redux/Modal/slice";
-import Modal from "../components/Modal/Modal";
-import SizeGuide from "../components/SizeGuide";
+import {Modal, SizeGuide, Loader, Satellite} from "../components";
+// import SizeGuide from "../components/SizeGuide";
 import {nanoid} from "nanoid";
 import {modalSelector} from "../redux/Modal/selectors";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
-import Loader from "../components/Loader";
+// import Loader from "../components/Loader";
 import {filterSelector} from "../redux/Filter/selectors";
 import {resetColor, setColor} from "../redux/Filter/slice";
 import {fetchItems} from "../redux/Item/fetchItem";
@@ -15,13 +15,16 @@ import {itemDataSelector} from "../redux/Item/selector";
 import {TItem} from "../redux/Item/types";
 import {TCartItem} from "../redux/Cart/types";
 import {addItem} from "../redux/Cart/slice";
-import Satellite from "../components/Satellite/Satellite";
+// import Satellite from "../components/Satellite/Satellite";
+import sortBy from 'lodash.sortby'
 import qs from "qs"
+import useWhyDidYouUpdate from "ahooks/lib/useWhyDidYouUpdate";
 
 
 const Item: FC = () => {
 
     const {id} = useParams()
+    // console.log("id", id);
     const navigate = useNavigate()
 
     const [item, setItem] = useState<TItem>({
@@ -46,6 +49,8 @@ const Item: FC = () => {
     const [activeImg, setActiveImg] = useState(0)
     const [activeSize, setActiveSize] = useState(item.sizes.length)
     const [category, setCategory] = useState(-1)
+    const [loadable, setLoadable] = useState(false)
+
 
     const onClickImg = (index: number) => {
         setUrl(item.imageUrl[index]);
@@ -69,27 +74,38 @@ const Item: FC = () => {
         navigate(-1)
     }
     //TODO тест на ошибки
-    //ERRORS
-    //1 ошибка цвета при возврате на пред. страницу кнопкой браузера(обработка кнопок браузера)
-    //2
+
     //TODO возникает ошибка по цвету, если вернуться назад по кнопке браузера
     //Эмулируем запрос поиска-выборки по цвету - Emulate a color search-select query
     //TODO проверить не проще ли менять цвет переходом через id найденного товара navigate(`/item/${id}`)
     // возможно на MongoDB есть сортировка по категории и цвету
 
-    //TODO делает 2 запроса из-за navigate(`/item/${result.id}`) без navi дописать в адресную строку
+    //TODO делает 2 перерисовки из-за navigate(`/item/${result.id}`) без navi дописать в адресную строку
+    //TODO в варианте с фильтрацией не перерисовывает сателит. перерисовка идет только после отработки axios
+
+    useWhyDidYouUpdate('Item', {color, id})
+    // const changeColor = async () => {
     const changeColor = async () => {
-        const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?category=${category}`)
-        const result = data.find((item: TItem) => item.color === color)
-        if (result) {
-            setItem(result)
-            setUrl(result.imageUrl[0])
-            navigate(`/item/${result.id}`)
-        } else {
+        try {
+            const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?category=${category}`)
+            const result = data.find((item: TItem) => item.color === color)
+            // const result = items.filter((itemR: TItem) => itemR.category === category).find((item: TItem) => item.color === color)
+            console.log('result', result);
+            if (result) {
+                setItem(result)
+                setUrl(result.imageUrl[0])
+                setLoadable(false)
+                console.log("result.id", result.id);
+                navigate(`/item/${result.id}`)
+            } else {
+                alert('Change color failure')
+                navigate(-1)
+            }
+            setIsLoading(false)
+        } catch (error){
             alert('Change color failure')
             navigate(-1)
         }
-        setIsLoading(false)
     }
     const fetchItem = async () => {
         try {
@@ -101,7 +117,7 @@ const Item: FC = () => {
             setIsLoading(false)
         } catch (error) {
             alert('EFI - (error fetch item)')
-            navigate('/')
+            navigate(-1)
         }
     }
     const clickAddCard = () => {
@@ -122,18 +138,33 @@ const Item: FC = () => {
             dispatch(addItem(Item))
         }
     }
-    //TODO двойной запроса при смене цвета
     useEffect(() => {
-        setIsLoading(true)
-        color >= 0
-            ? changeColor()
-            : fetchItem()
-    }, [color, id])
+        if(loadable){
+            setIsLoading(true)
+            color >= 0
+                ? changeColor()
+                : fetchItem()
+        }
+        setLoadable(true)
+
+    }, [color,id])
+
+    // useEffect(() => {
+    //     if (loadable) {
+    //         setIsLoading(true)
+    //         changeColor()
+    //     }
+    //     setLoadable(true)
+    //
+    // }, [color, id])
+
+    useEffect(() => {
+        fetchItem()
+    }, [])
 
     if (!item) {
         return <Loader/>
     }
-    //TODO responsive in media
     return (
         isLoading
             ? <Loader/>

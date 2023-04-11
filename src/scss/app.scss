@@ -9,15 +9,16 @@ body {
 
 .wrapper {
   width: calc(100vw - 20px);
-  //width: 100vw;
   height: 100%;
   background-color: #fff;
-  //background-color: #f2f2f2;
   margin: 20px auto;
-  //border-radius: 10px;
-  //max-width: 1600px;
   max-width: 100vw;
 
+  .content-main{
+    overflow: hidden;
+    padding: 40px 0;
+    min-height: calc(100vh - 330px)
+  }
 
   @media (max-width: 645px){
     width: calc(100vw - 30px);
@@ -112,6 +113,8 @@ body {
 .container {
   width: $container-width;
   margin: 0 auto;
+  //min-height: 90vh;
+
 //fox
   .home-item{
     display: grid;
