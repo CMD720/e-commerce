@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './NotFound.module.scss'
 import {Link} from "react-router-dom";
-import Satellite from "../Satellite/Satellite";
 
 const Index = () => {
     return (
@@ -16,7 +15,6 @@ const Index = () => {
             </div>
             <div className={styles.bottom}>404</div>
             <div className={styles.satellite}>
-                {/*<Satellite/>*/}
             </div>
         </div>
     );

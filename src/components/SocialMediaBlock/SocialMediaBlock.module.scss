@@ -1,0 +1,14 @@
+.socialMedia{
+  display: flex;
+
+  img{
+    margin: 0 5px;
+  }
+
+  @media (max-width: 450px) {
+    img{
+      height: 20px;
+      width: 20px;
+    }
+  }
+}

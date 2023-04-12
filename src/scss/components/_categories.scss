@@ -2,24 +2,19 @@
 
 .categories {
   position: relative;
-  //top: 32px;
   top: 9px;
   margin-right: 10px;
   display: flex;
   justify-content: center;
+
   .categoriesMenu {
     display: flex;
     position: relative;
     top: 22px;
 
     li {
-      //background-color: #f9f9f9;
-      //border-bottom: 1px solid #ffffff;
-      //border-radius: 30px;
-      //margin-right: 10px;
       background-color: #ffffff;
       padding: 13px 30px;
-      //border-bottom: none;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.1s ease-in-out;
@@ -28,12 +23,10 @@
 
 
       &:hover {
-        //background-color: darken(#f9f9f9, 2%);
         border-bottom: 2px solid rgba(24, 24, 24, 0.31);
       }
 
       &:active {
-        //background-color: darken(#f9f9f9, 5%);
         border-bottom: 1px solid #ffffff;
       }
 
@@ -43,58 +36,42 @@
     }
   }
 
-  .burger_btn{
+  .burger_btn {
     display: none;
 
   }
-  //на 800 у categoriesMenu меняем padding: 5px 15px; (выше) или перенести сюда?
-  //на  645px поменяем
+
   @media (max-width: 1150px) {
-    .categoriesMenu{
+    .categoriesMenu {
       li {
         padding: 13px 15px;
       }
     }
   }
   @media (max-width: 950px) {
-    .categoriesMenu{
+    .categoriesMenu {
       li {
         padding: 13px 10px;
       }
     }
   }
-  //@media (max-width: 800px) {
-  //  .categoriesMenu{
-  //    li {
-  //      padding: 13px 5px;
-  //    }
-  //  }
-  //}
-    @media (max-width: 900px){
+  @media (max-width: 900px) {
     .burger_btn {
       display: block;
-      //position: relative;
-      //right: 10px;
-      //top: 27px;
       cursor: pointer;
       z-index: 10;
     }
     .categoriesMenu {
       display: inline-flex;
-      //flex-direction: column;
-      //justify-content: center;
-      //align-items: stretch;
       position: fixed;
       left: -100%;
       right: 0;
       top: 79px;
       bottom: 0;
-      //width: 500px;
       height: 55px;
-      //border: 1px solid black;
-      //background-color: #f8f8f8;
       z-index: 10;
       transition: left 1s;
+
       li {
         margin: 0;
         text-align: center;
@@ -102,36 +79,30 @@
       }
     }
     .active {
-      //left: 0;
       left: 85px;
     }
   }
 
-  @media (max-width: 645px){
+  @media (max-width: 645px) {
     .burger_btn {
       display: block;
-      //position: relative;
-      //right: 10px;
-      //top: 27px;
       cursor: pointer;
       z-index: 10;
     }
     .categoriesMenu {
       display: flex;
       flex-direction: column;
-      //justify-content: center;
-      //align-items: stretch;
       position: fixed;
       left: -100%;
       right: 0;
       top: 180px;
       bottom: 0;
       width: 100%;
-      //width: 200px;
       height: 300px;
       background-color: #f8f8f8;
       z-index: 10;
       transition: left 1s;
+
       li {
         margin: 0;
         text-align: center;

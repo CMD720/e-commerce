@@ -1,12 +1,10 @@
 .root {
   position: relative;
   top: 7px;
-  //left: -100px;
 }
 
 .input {
   border: 1px solid rgba(0, 0, 0, 0.05);
-  //border: none;
   padding: 12px 30px 12px 42px;
   width: 160px;
   border-radius: 10px;
@@ -36,7 +34,7 @@
   right: 10px;
   top: 13px;
   cursor: pointer;
-  margin-right: 5px;
+  margin-right: 10px;
 
   &:hover {
     opacity: 0.8;

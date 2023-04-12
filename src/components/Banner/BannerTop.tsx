@@ -3,7 +3,7 @@ import styles from './Banners.module.scss'
 
 const Banner = () => {
 
-    const bannerText = ['Free Standard Shipping on Orders $109+','From 3 units - 5% discount', 'A gift for the first order', 'SALE on models 2022']
+    const bannerText = ['Free Standard Shipping on Orders $599+','From 3 units - 5% discount', 'A gift for the first order', 'SALE on models 2022']
     const [indexText, setIndexText] = useState(0)
 
     const changeIndex = (index: number) => {

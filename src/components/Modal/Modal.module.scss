@@ -1,13 +1,9 @@
-
 .cart{
   height: 100vh;
   width: 100vw;
-  //width: calc(100vw - 18px);
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   display: flex;
-  //display: none;
-  //align-items: center;
   justify-content: flex-end;
   top: 0;
   left: 0;
@@ -21,7 +17,6 @@
     background-color: white;
     height: 100vh;
     width: 400px;
-
   }
 }
 
@@ -31,14 +26,12 @@
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   display: flex;
-  //display: none;
   align-items: center;
   justify-content: center;
   top: 0;
   left: 0;
   z-index: 3;
   backdrop-filter: blur(5px);
-
 
   .modal_content {
     display: flex;
@@ -47,7 +40,6 @@
 
     background-color: white;
   }
-
 }
 
 .close_modal {
@@ -67,6 +59,3 @@
   padding: 20px;
   overflow: auto;
 }
-//.active{
-//  display: flex;
-//}

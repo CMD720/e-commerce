@@ -3,33 +3,35 @@ import styles from "./Search.module.scss"
 import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
 import {setSearchValue} from "../../redux/Filter/slice";
 import {filterSelector} from "../../redux/Filter/selectors";
+import debounce from 'lodash.debounce'
 
-const Search = () => {
+const Search: React.FC = React.memo(() => {
     const dispatch = useAppDispatch()
     const {categoryId, searchValue} = useAppSelector(filterSelector)
-
+    const [value , setValue] = useState('')
     const inputRef = useRef<HTMLInputElement>(null)
 
     const onClickClear = () => {
         dispatch(setSearchValue(''))
+        setValue('')
         //оператор опциональной последовательности
         inputRef.current?.focus()
     }
-    // const updateSearchValue = useCallback (
-    //     debounce(
-    //         (str) => {dispatch(setSearchValue(str))},250
-    //     ),[]
-    // )
+    const updateSearchValue = useCallback (
+        debounce(
+            (str:string) => {dispatch(setSearchValue(str))},450
+        ),[]
+    )
     const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setSearchValue(event.target.value));
-        // updateSearchValue(event.target.value)
+        setValue(event.target.value)
+        updateSearchValue(event.target.value)
     }
     return (
         <div className={styles.root}>
             <img className={styles.icon} width={22} height={22} src="/img/searchIcon.svg" alt="search_icon"/>
             <input
                 ref={inputRef}
-                value={searchValue}
+                value={value}
                 onChange={onChangeInput}
                 className={styles.input} placeholder="Search..." type="text"/>
             {searchValue &&
@@ -44,6 +46,6 @@ const Search = () => {
             }
         </div>
     );
-};
+});
 
 export default Search;

@@ -1,13 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
-import CartItem from "../Cart/CartItem";
 import {cartSelector} from "../../redux/Cart/selectors";
-import {nanoid} from "nanoid";
-import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
+import {useAppSelector} from "../../redux/storeHooks";
 
 const OrderDiscount = () => {
-
-    const dispatch = useAppDispatch()
-    const {itemsCart, totalPrice, totalCount, totalDiscount} = useAppSelector(cartSelector)
+    const { totalPrice,  totalDiscount} = useAppSelector(cartSelector)
 
     const [promo, setPromo] = useState(false)
     const [tooltips, setTooltips] = useState(false)
@@ -18,7 +14,6 @@ const OrderDiscount = () => {
     const [promoCount, setPromoCount] = useState<number>(0)
     const [toOrder, setToOrder] = useState<number>(totalPrice)
     const [enteredPromo, setEnteredPromo] = useState<string>("")
-    // const [isMounted, setIsMounted] = useState(false)
     const promoRef = useRef<HTMLInputElement>(null)
 
     const promoCode = [
@@ -81,8 +76,7 @@ const OrderDiscount = () => {
 
     useEffect(() => {
         calcDiscount()
-        // setIsMounted(true)
-    }, [promoCount, totalDiscount, /*totalCount,*/ totalPrice, valueDiscount, toOrder])
+    }, [promoCount, totalDiscount, totalPrice, valueDiscount, toOrder])
 
     useEffect(() => {
         const check = promoView || totalDiscount !== 0 ? setDiscount(true) : (setDiscount(false) , setShowDiscount(false))
@@ -107,7 +101,9 @@ const OrderDiscount = () => {
                                 </div>
                             }
                         </div>
-                        <p onClick={() => onClickAddPromo()} className="add__promo">+</p>
+                        <div onClick={() => onClickAddPromo()} className="add__promo">
+                            <img className={ !promo? "on": "off"} src="/img/remove-item.svg" alt="add promo"/>
+                        </div>
                     </div>
                 }
                 <div className={promo ? "promo__on" : "promo"}>
@@ -115,7 +111,6 @@ const OrderDiscount = () => {
                         ref={promoRef}
                         value={enteredPromo}
                         onChange={onChangeInput}
-                        // onKeyDown={event => keyPress(event)}
                         onKeyDown={keyPress}
                         className="text_field"
                         type="text"

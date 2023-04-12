@@ -27,7 +27,7 @@ const PortalModal = ({ children, wrapperId }: Props) => {
 			if (portalCreated && element.parentNode) {
 				element.parentNode.removeChild(element)
 			}
-			console.log("cleaning portal element")
+			// console.log("cleaning portal element")
 		}
 	}, [wrapperId])
 

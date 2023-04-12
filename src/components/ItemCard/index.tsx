@@ -1,15 +1,12 @@
 import React, {FC, useState} from 'react';
-import {Link, useNavigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
+import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "../../redux/storeHooks";
 import {nanoid} from "nanoid";
-import {cartSelector} from "../../redux/Cart/selectors";
 import {addItem} from "../../redux/Cart/slice";
-import item from "../../pages/Item";
 import {TCartItem} from "../../redux/Cart/types";
 import {resetColor, setCategoryId} from "../../redux/Filter/slice";
 
 type ItemCardProps = {
-    //TODO не все нужны (или так оставить?)
     id: string;
     category: number;
     imageUrl: string[];

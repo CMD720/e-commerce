@@ -1,19 +1,13 @@
-import React, {FC, ReactNode, useCallback, useEffect} from 'react';
+import React, {FC, useCallback, useEffect} from 'react';
 import styles from './Modal.module.scss'
 import {useAppDispatch, useAppSelector} from "../../redux/storeHooks";
 import {modalOnOff} from "../../redux/Modal/slice";
 import {modalSelector} from "../../redux/Modal/selectors";
-import {createPortal} from "react-dom";
 import PortalModal from "./PortalModal";
-
-// type Tstyle = {
-//     style: "cart" | "other"
-// }
 
 type ModalProps = {
     style?: "cart" | "other" | ""
     show: boolean
-    // children?: ReactNode
     children?: JSX.Element | JSX.Element[]
 }
 const Modal: FC<ModalProps> =
@@ -22,34 +16,22 @@ const Modal: FC<ModalProps> =
          show,
          children,
      }) => {
-
-        // console.log('children',children)
-        ///////////
         const dispatch = useAppDispatch()
         const {modalCart, modal} = useAppSelector(modalSelector)
 
         const activeModal = modalCart ? 'cart' : 'modal'
         const rootClasses = []
-        // const shows = modalCart || modal
 
-        if(show){
+        if (show) {
             rootClasses.push(modalCart ? [styles.cart] : [styles.modal])
         }
 
-        // const modalRef = useRef<HTMLDivElement>(null)
-        // handle what happens on click outside of modal
-        // const handleClickOutside = () => setShow(false)
-        // const handleClickOutside = () => dispatch(modalOnOffCart('cart'))
-        // useOnClickOutside(modalRef, handleClickOutside)
-
         // handle what happens on key press
         const handleKeyPress = useCallback((event: KeyboardEvent) => {
-            // if (event.key === "Escape") dispatch(modalOnOffCart('cart'))
             if (event.key === "Escape") dispatch(modalOnOff(activeModal))
         }, [])
 
         useEffect(() => {
-            // if (modalCart) {
             if (show) {
                 // attach the event listener if the modal is shown
                 document.addEventListener("keydown", handleKeyPress)
@@ -58,17 +40,12 @@ const Modal: FC<ModalProps> =
                     document.removeEventListener("keydown", handleKeyPress)
                 }
             }
-            // }, [handleKeyPress, modalCart])
         }, [handleKeyPress, show])
-
-
-        // console.log("show - ",show)
 
         return (
             <>
                 {show && (
                     <PortalModal wrapperId='modal-portal'>
-                        {/*<div onClick={() => dispatch(modalOnOffCart('cart'))} className={styles.cart}>*/}
                         <div className={rootClasses.join(' ')} onClick={() => dispatch(modalOnOff(activeModal))}>
                             <div className={styles.modal_content} onClick={event => event.stopPropagation()}>
                                 <div className={styles.close_modal} onClick={() => dispatch(modalOnOff(activeModal))}>

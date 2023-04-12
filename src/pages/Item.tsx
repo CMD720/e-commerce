@@ -1,22 +1,16 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../redux/storeHooks";
 import {modalOnOff} from "../redux/Modal/slice";
-import Modal from "../components/Modal/Modal";
-import SizeGuide from "../components/SizeGuide";
+import {Loader, Modal, Satellite, SizeGuide} from "../components";
 import {nanoid} from "nanoid";
 import {modalSelector} from "../redux/Modal/selectors";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
-import Loader from "../components/Loader";
 import {filterSelector} from "../redux/Filter/selectors";
 import {resetColor, setColor} from "../redux/Filter/slice";
-import {fetchItems} from "../redux/Item/fetchItem";
-import {itemDataSelector} from "../redux/Item/selector";
 import {TItem} from "../redux/Item/types";
 import {TCartItem} from "../redux/Cart/types";
 import {addItem} from "../redux/Cart/slice";
-import Satellite from "../components/Satellite/Satellite";
-import qs from "qs"
 
 
 const Item: FC = () => {
@@ -38,14 +32,15 @@ const Item: FC = () => {
 
     const dispatch = useAppDispatch()
     const {modal} = useAppSelector(modalSelector)
-    const {categoryId, searchValue, color} = useAppSelector(filterSelector)
-    const {items, status} = useAppSelector(itemDataSelector)
+    const {color} = useAppSelector(filterSelector)
 
     const [isLoading, setIsLoading] = useState(true)
     const [url, setUrl] = useState(item.imageUrl[0])
     const [activeImg, setActiveImg] = useState(0)
     const [activeSize, setActiveSize] = useState(item.sizes.length)
     const [category, setCategory] = useState(-1)
+    const [loadable, setLoadable] = useState(false)
+
 
     const onClickImg = (index: number) => {
         setUrl(item.imageUrl[index]);
@@ -68,28 +63,24 @@ const Item: FC = () => {
         dispatch(resetColor())
         navigate(-1)
     }
-    //TODO тест на ошибки
-    //ERRORS
-    //1 ошибка цвета при возврате на пред. страницу кнопкой браузера(обработка кнопок браузера)
-    //2
-    //TODO возникает ошибка по цвету, если вернуться назад по кнопке браузера
-    //Эмулируем запрос поиска-выборки по цвету - Emulate a color search-select query
-    //TODO проверить не проще ли менять цвет переходом через id найденного товара navigate(`/item/${id}`)
-    // возможно на MongoDB есть сортировка по категории и цвету
-
-    //TODO делает 2 запроса из-за navigate(`/item/${result.id}`) без navi дописать в адресную строку
     const changeColor = async () => {
-        const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?category=${category}`)
-        const result = data.find((item: TItem) => item.color === color)
-        if (result) {
-            setItem(result)
-            setUrl(result.imageUrl[0])
-            navigate(`/item/${result.id}`)
-        } else {
+        try {
+            const {data} = await axios.get(`https://63d036bce52f587829ae3131.mockapi.io/items?category=${category}`)
+            const result = data.find((item: TItem) => item.color === color)
+            if (result) {
+                setItem(result)
+                setUrl(result.imageUrl[0])
+                setLoadable(false)
+                navigate(`/item/${result.id}`)
+            } else {
+                alert('Change color failure')
+                navigate(-1)
+            }
+            setIsLoading(false)
+        } catch (error) {
             alert('Change color failure')
             navigate(-1)
         }
-        setIsLoading(false)
     }
     const fetchItem = async () => {
         try {
@@ -101,7 +92,7 @@ const Item: FC = () => {
             setIsLoading(false)
         } catch (error) {
             alert('EFI - (error fetch item)')
-            navigate('/')
+            navigate(-1)
         }
     }
     const clickAddCard = () => {
@@ -122,18 +113,24 @@ const Item: FC = () => {
             dispatch(addItem(Item))
         }
     }
-    //TODO двойной запроса при смене цвета
     useEffect(() => {
-        setIsLoading(true)
-        color >= 0
-            ? changeColor()
-            : fetchItem()
+        if (loadable) {
+            setIsLoading(true)
+            color >= 0
+                ? changeColor()
+                : fetchItem()
+        }
+        setLoadable(true)
+
     }, [color, id])
+
+    useEffect(() => {
+        fetchItem()
+    }, [])
 
     if (!item) {
         return <Loader/>
     }
-    //TODO responsive in media
     return (
         isLoading
             ? <Loader/>

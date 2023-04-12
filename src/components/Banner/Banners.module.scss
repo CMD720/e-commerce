@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  //width: calc(100vw - 20px);
   height: 50px;
   background-color: #000;
   color: #f2f2f2;
@@ -11,7 +10,6 @@
     display: inline-block;
     text-align: center;
     font-weight: bolder;
-    //height: 100%;
     width: 50vw;
     animation-name: textIn;
     animation-duration: 20s;
@@ -25,23 +23,13 @@
 @keyframes textIn {
   0% {
     color: #000000;
-    //bottom: -100%;
-    //left: 0;
-    //right: -300px;
   }
   3% {
     color: #ffffff;
     margin-bottom: 0;
   }
   5% {
-    //color: #ffffff;
-    //margin-bottom: 0;
   }
-  //50% {
-  //  right: 0;
-  //  //left: 0;
-  //
-  //}
   95% {
     color: #ffffff;
     margin-bottom: 0;
@@ -67,24 +55,6 @@
     margin: 10px 10px;
   }
 
-  // Button style replace to _button.scss
-  .button {
-    display: inline-block;
-    background-color: black;
-    font-weight: bolder;
-    color: white;
-    padding: 11px 20px;
-    margin: 20px 20px;
-    border-radius: 25px;
-    border: 2px solid black;
-
-    &:hover{
-      background-color: #f2f2f2;
-      color: black;
-      border: 2px solid black;
-    }
-  }
-
   .homeBanner {
     display: flex;
     flex-direction: column;
@@ -106,7 +76,6 @@
     background-position: 50% 50%;
     background-size: cover;
     height: 40vh;
-    //position: relative;
   }
 
   .pad2 {

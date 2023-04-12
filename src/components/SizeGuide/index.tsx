@@ -4,9 +4,9 @@ import Helmets from "./helmet";
 import Pants from "./pants";
 import Jersey from "./jersey";
 
-const Index = ({category}:any) => {
+const Index = ({category}: any) => {
 
-    const sizeGuide = ['','',<Helmets/>,'',<Jersey/>,<Pants/>,<Boots/>]
+    const sizeGuide = ['', '', <Helmets/>, '', <Jersey/>, <Pants/>, <Boots/>]
 
     return (
         <div>

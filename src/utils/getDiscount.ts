@@ -10,12 +10,7 @@ export const getDiscount = (price:number, count:number) => {
     }
 }
 
-export const tlDiscount = (items: TCartItem[]) => {
-    // const total = items.reduce((sum: number, obj: TCartItem) => {
-    //     return obj.itemDiscount + sum
-    // }, 0)
-    // return total
-
+export const ttlDiscount = (items: TCartItem[]) => {
     return items.reduce((sum: number, obj: TCartItem) => {
         return parseFloat((obj.itemDiscount + sum).toFixed(2))
     }, 0)
