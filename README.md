@@ -9,12 +9,12 @@
 + Queries by product category
 + Search by name
 + Selecting a complete set by color
-    * `adding the whole set to cart with one button`.
+    * `adding the whole set to cart with one button`
 
 + In the product card it is possible to
-    * `size selection`,
+    * `size selection`
     * `color change`
-    * `viewing a size guide`.
+    * `viewing a size guide`
 + Adding, removing items to cart
 + Quick view cart.
 + Implemented in the shopping cart
