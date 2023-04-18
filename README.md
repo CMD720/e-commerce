@@ -9,6 +9,7 @@
 
 ---
 
+<<<<<<< HEAD
 #### Установка зависимостей:
 ```md
 npm install
@@ -18,6 +19,23 @@ npm install
 npm run start
 ```
 
+=======
+##  UX  UI
++ Queries by product category
++ Search by name
++ Selecting a complete set by color
+    * `adding the whole set to cart with one button`
+
++ In the product card it is possible to
+    * `size selection`
+    * `color change`
+    * `viewing a size guide`
++ Adding, removing items to cart
++ Quick view cart.
++ Implemented in the shopping cart
+    * `discount calculation from 3 units`
+    * `promotional code input`
+>>>>>>> d03a0340763596548148eca953b434ddc05c73d1
 ---
 
 ## UI 
