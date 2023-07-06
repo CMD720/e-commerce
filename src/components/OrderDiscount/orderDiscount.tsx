@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {cartSelector} from "../../redux/Cart/selectors";
 import {useAppSelector} from "../../redux/storeHooks";
+import Tooltip from "../Tooltip/Tooltip";
 
 const OrderDiscount = () => {
-    const { totalPrice,  totalDiscount} = useAppSelector(cartSelector)
+    const {totalPrice, totalDiscount} = useAppSelector(cartSelector)
 
     const [promo, setPromo] = useState(false)
     const [tooltips, setTooltips] = useState(false)
@@ -45,7 +46,7 @@ const OrderDiscount = () => {
             const d = parseFloat((totalPrice * findPromo.value).toFixed(2))
             setPromoCount(d)
             setPromoView(true)
-        }else {
+        } else {
             onClickClear()
             alert(`Incorrect promo code`)
         }
@@ -69,7 +70,9 @@ const OrderDiscount = () => {
             setPromoView(false)
             setPromo(false)
         }
-        if(enteredPromo !== ""){calcPromo();}
+        if (enteredPromo !== "") {
+            calcPromo();
+        }
         setValueDiscount(parseFloat((totalDiscount + promoCount).toFixed(2)));
         setToOrder(parseFloat((totalPrice - valueDiscount).toFixed(2)));
     }
@@ -82,7 +85,7 @@ const OrderDiscount = () => {
         const check = promoView || totalDiscount !== 0 ? setDiscount(true) : (setDiscount(false) , setShowDiscount(false))
     }, [promoView, totalDiscount])
 
-
+    //TODO style for tooltip
     return (
         <div className="price__cart">
             <div className="promo__wrapper">
@@ -90,19 +93,30 @@ const OrderDiscount = () => {
                     <div className="set__promo">
                         <div className="promo__question">
                             <p>I Have a Promo Code</p>
+                            <Tooltip title="tooltip - 1">
+                                <button>just hover it</button>
+                            </Tooltip>
+                            {/*{*/}
+                            {/*    promo && <div className="question__wrapper">*/}
+                            {/*        <img onMouseEnter={() => setTooltips(true)}*/}
+                            {/*             onMouseLeave={() => setTooltips(false)}*/}
+                            {/*             width={17} height={17} src="/img/question-square.svg" alt="cart"/>*/}
+                            {/*        <div className={tooltips ? "tooltips__on" : "tooltips"}>*/}
+                            {/*            <p>try PROMO15 , PROMO25 and PROMO50</p>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
+                            {/*}*/}
                             {
-                                promo && <div className="question__wrapper">
+                                promo && <Tooltip title="try PROMO15 , PROMO25 or PROMO50">
                                     <img onMouseEnter={() => setTooltips(true)}
                                          onMouseLeave={() => setTooltips(false)}
                                          width={17} height={17} src="/img/question-square.svg" alt="cart"/>
-                                    <div className={tooltips ? "tooltips__on" : "tooltips"}>
-                                        <p>try PROMO15 , PROMO25 and PROMO50</p>
-                                    </div>
-                                </div>
+                                </Tooltip>
                             }
+
                         </div>
                         <div onClick={() => onClickAddPromo()} className="add__promo">
-                            <img className={ !promo? "on": "off"} src="/img/remove-item.svg" alt="add promo"/>
+                            <img className={!promo ? "on" : "off"} src="/img/remove-item.svg" alt="add promo"/>
                         </div>
                     </div>
                 }
