@@ -93,9 +93,6 @@ const OrderDiscount = () => {
                     <div className="set__promo">
                         <div className="promo__question">
                             <p>I Have a Promo Code</p>
-                            <Tooltip title="tooltip - 1">
-                                <button>just hover it</button>
-                            </Tooltip>
                             {/*{*/}
                             {/*    promo && <div className="question__wrapper">*/}
                             {/*        <img onMouseEnter={() => setTooltips(true)}*/}
